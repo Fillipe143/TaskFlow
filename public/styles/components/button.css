@@ -1,0 +1,29 @@
+input[type=submit] {
+    display: inline-block;
+    text-align: center;
+
+    color: white;
+    background-color: var(--neutro-color);
+    font-size: 16px;
+
+    border: none;
+    border-radius: 4px;
+    padding: 8px;
+
+    text-decoration: none;
+    cursor: pointer;
+}
+
+input[type=submit].neutro { background-color: var(--neutro-color); }
+input[type=submit].neutro:hover { background-color: var(--neutro-dark-color); }
+
+input[type=submit].positive { background-color: var(--positive-color); }
+input[type=submit].positive:hover { background-color: var(--positive-dark-color); }
+
+input[type=submit].negative { background-color: var(--negative-color); }
+input[type=submit].negative:hover { background-color: var(--negative-dark-color); }
+
+input[type=submit]:disabled, input[type=submit]:disabled:hover {
+    background-color: var(--disabled-color);
+    cursor: default;
+}

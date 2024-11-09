@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+
+    <link href="../styles/pages/login.css" rel="stylesheet"/>
+    <script type="module" src="/dist/pages/register.js"></script>
+</head>
+<body>
+    <h1>Task<span>Flow</span></h1>
+    <form>
+        <h2>Cadastrar</h2>
+        <div class="input-container positive">
+            <input type="text" placeholder="" id="name">
+            <label for="name"><span class="material-symbols-outlined">mail</span>Nome</label>
+        </div>
+
+        <div class="input-container positive">
+            <input type="email" placeholder="" id="email">
+            <label for="email"><span class="material-symbols-outlined">mail</span>Email</label>
+        </div>
+
+        <div class="input-container positive">
+            <input type="password" placeholder="" id="password">
+            <label for="password"><span class="material-symbols-outlined">lock</span>Senha</label>
+        </div>
+
+        <div class="input-container positive">
+            <input type="password" placeholder="" id="passwordCheck">
+            <label for="passwordCheck"><span class="material-symbols-outlined">lock</span>Confirmar senha</label>
+        </div>
+
+        <p class="error"><span class="material-symbols-outlined">info</span><i>Algo deu errado</i></p>
+        <input type="submit" value="Cadastrar" class="positive" disabled/>
+        <p>Já tem uma conta? <a href="/login">Entrar agora!</a></p>
+    </form>
+    <footer>TaskFlow ©2024</footer>
+</body>
+</html>

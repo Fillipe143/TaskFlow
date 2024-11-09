@@ -1,0 +1,13 @@
+:root {
+    --neutro-color: #008CBA;
+    --neutro-dark-color: #006B8E;
+    
+    --positive-color: #04AA6D;
+    --positive-dark-color: #028A53;
+    
+    --negative-color: #F44336;
+    --negative-dark-color: #D32F2F;
+
+    --disabled-color: #AAA;
+    --text-color: #282828;
+}

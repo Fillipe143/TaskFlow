@@ -1,0 +1,55 @@
+.input-container {
+    display: flex;
+    position: relative;
+    margin-top: 8px;
+}
+
+.input-container { --input-color: black; }
+.input-container.neutro { --input-color: var(--neutro-color); }
+.input-container.positive { --input-color: var(--positive-color); }
+.input-container.negative { --input-color: var(--negative-color); }
+
+.input-container input {
+    outline: none;
+    border: 1px solid var(--disabled-color);
+    border-radius: 5px;
+}
+
+.input-container label {
+    position: absolute;
+    top: 0;
+
+    display: flex;
+    align-items: center;
+    transition: .15s ease;
+}
+
+.input-container label span {
+    margin-right: 4px;
+    font-size: small;
+}
+
+.input-container input,
+.input-container label {
+    padding: 8px;
+}
+
+.input-container input:focus,
+.input-container input:not(:placeholder-shown) {
+    border-color: var(--input-color);
+}
+
+.input-container input:focus ~ label,
+.input-container input:not(:placeholder-shown) ~ label {
+    top: -16px;
+    margin: 8px;
+    padding: 0 2px 0 2px;
+    background-color: white;
+    color: var(--input-color);
+    font-size: 12px;
+}
+
+.input-container input:focus ~ label span,
+.input-container input:not(:placeholder-shown) ~ label span {
+    display: none;
+}
