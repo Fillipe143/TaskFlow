@@ -1,0 +1,14 @@
+@import "../global.css";
+@import "../components/button.css";
+@import "../components/loader.css";
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    width: 150px;
+}

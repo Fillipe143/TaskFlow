@@ -1,6 +1,8 @@
 import $ from "jquery";
 import { validateEmail } from "../utils/validateEmail";
+import { loginWithEmail } from "../database/auth";
 
+const loader = $(".loader");
 const form = $("form");
 const emailField = $("#email");
 const emailContainer = emailField.parent();
@@ -13,10 +15,16 @@ passwordField.on("input", onDataChange);
 
 form.on("submit", e => {
     e.preventDefault();
+    loader.toggleClass("dismiss");
 
     const email = emailField.val() as string;
     const password = passwordField.val() as string;
-    alert(`${email}\n${password}`);
+
+    loginWithEmail(email, password)
+    .then(error => {
+        loader.toggleClass("dismiss");
+        changeError(error);
+    });
 });
 
 function onDataChange() {

@@ -14,7 +14,7 @@ export default {
         {
             match: 'routes',
             src: '/',
-            dest: '/pages/index.html'
+            dest: '/pages/home.html'
         },
         {
             match: 'routes',
