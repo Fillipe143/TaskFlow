@@ -12,3 +12,7 @@ body {
 input {
     width: 150px;
 }
+
+body.dismiss {
+    opacity: 0;
+}
