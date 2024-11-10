@@ -1,10 +1,12 @@
 import $ from "jquery";
 import * as auth from "../database/auth";
 import * as projectDB from "../database/models/projectDB";
+import { mdToHtml } from "../lib/markdown_viewer";
 
 const loader = $(".loader");
 const textarea = $("textarea");
 const loaderMsg = loader.find("p");
+const htmlContainer = $(".container")
 
 const urlParams = new URLSearchParams(window.location.search);
 const projectId = urlParams.get("id") || "";
@@ -15,6 +17,7 @@ auth.onUserChange(async _ => {
 
     $("title").text(project.name);
     textarea.text(project.content)
+    updateHtmlContainer();
 
     loader.addClass("dismiss");
 
@@ -24,6 +27,8 @@ auth.onUserChange(async _ => {
             saveContent()
         }
     });
+
+    textarea.on("input", _ => updateHtmlContainer());
 });
 
 async function saveContent() {
@@ -34,4 +39,9 @@ async function saveContent() {
     await projectDB.update(projectId, {content});
     loader.addClass("dismiss");
     loaderMsg.text(originalMsg);
+}
+
+function updateHtmlContainer() {
+    const source = textarea.val()?.toString() || "";
+    htmlContainer.html(mdToHtml(source));
 }
