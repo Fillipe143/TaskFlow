@@ -9,6 +9,22 @@
     <script type="module" src="/dist/pages/home.js"></script>
 </head>
 <body class="dismiss">
+    <div class="loader dismiss">
+        <svg class="circular">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
+        </svg>
+    </div>
+    <div class="dialog-container">
+        <form class="dialog">
+            <h3>Criar projeto</h3>
+            <div class="input-container neutro">
+                <input type="text" placeholder="" id="project-name">
+                <label for="project-name">Nome do projeto</label>
+            </div>
+            <input type="submit" value="Criar" class="positive" id="create-project" disabled/>
+        <form>
+    </div>
+
     <div class="sidebar">
         <span class="resize-handle"></span>
         <h1>Task<span>Flow</span></h1>
@@ -33,6 +49,13 @@
                 <p id="username"></p>
             </div>
         </header>
+
+        <p class="dismiss" id="noprojects">Nenhum projeto criado ainda.</p>
+
+        <div class="projects dismiss">
+            <h2>Projetos</h2>
+            <ul id="projects-list"></ul>
+        </div>
     </main>
 </body>
 </html>
