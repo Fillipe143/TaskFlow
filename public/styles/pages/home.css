@@ -24,6 +24,30 @@ h1 span {
     color: var(--negative-color);
 }
 
-.search {
-    margin: 32px;
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: 32px 16px 32px 16px;
+}
+
+header img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+header .input-container {
+    width: 50%;
+}
+
+header .user-info {
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: center;
+    cursor: pointer;
 }
