@@ -1,18 +1,15 @@
 @import "../global.css";
-@import "../components/button.css";
-@import "../components/loader.css";
-
-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-input {
-    width: 150px;
-}
+@import "../components/sidebar.css";
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,logout,mail");
 
 body.dismiss {
-display: none;
+    display: none;
+}
+
+h1 span {
+    color: var(--positive-color);
+}
+
+#exit, #exit span {
+    color: var(--negative-color);
 }

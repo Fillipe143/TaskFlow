@@ -1,0 +1,49 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 250px;
+    height: 100%;
+}
+
+.resize-handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    height: 100%;
+    border-right: 1px solid var(--disabled-color);
+    cursor: ew-resize;
+    z-index: 10;
+}
+
+.sidebar h1 {
+    padding: 16px;
+    text-align: center;
+    cursor: default;
+}
+
+.sidebar .option {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid var(--disabled-color);
+    border-bottom: 1px solid var(--disabled-color);
+    padding: 16px;
+    cursor: pointer;
+}
+
+.sidebar .option:not(:last-child) {
+    margin-bottom: -1px;
+}
+
+.sidebar .option:hover {
+    background-color: var(--hover-color);
+}
+
+.sidebar .option span {
+    margin-right: 24px;
+}
+
+.sidebar .fill {
+    flex-grow: 1;
+}
