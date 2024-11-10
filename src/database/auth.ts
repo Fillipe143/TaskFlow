@@ -10,6 +10,10 @@ fbAuth.onAuthStateChanged(user => {
     updateRoute(user !== null)
 });
 
+export function getCurrentUser(): User | null {
+    return fbAuth.currentUser;
+}
+
 export function onUserChange(callback: (user: User | null) => void) {
     fbAuth.onAuthStateChanged(_ => callback(fbAuth.currentUser));
 }
