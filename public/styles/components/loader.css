@@ -1,5 +1,10 @@
-.loader:not(.dismiss) {
+.loader {
     position: absolute;
+    width: 0;
+    height: 0;
+}
+
+.loader:not(.dismiss) {
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.8);

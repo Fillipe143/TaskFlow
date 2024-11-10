@@ -1,6 +1,8 @@
 import $ from "jquery";
 import { validateEmail } from "../utils/validateEmail";
+import { registerUser } from "../database/auth";
 
+const loader = $(".loader");
 const form = $("form");
 const nameField = $("#name");
 const emailField = $("#email");
@@ -19,10 +21,17 @@ passwordCheckField.on("input", onDataChange);
 
 form.on("submit", e => {
     e.preventDefault();
+    loader.toggleClass("dismiss");
 
+    const name = (nameField.val() as string).trim();
     const email = emailField.val() as string;
     const password = passwordField.val() as string;
-    alert(`${email}\n${password}`);
+
+    registerUser(name, email, password)
+    .then(error => {
+        loader.toggleClass("dismiss");
+        changeError(error)
+    });
 });
 
 function onDataChange() {
@@ -46,6 +55,11 @@ function onDataChange() {
         changePasswordStatus(disableButton);
     }
 
+    if (!disableButton) {
+        disableButton = password.length < 6;
+        changePasswordStatus(disableButton, "A senha deve ter ao menos 6 caracteres");
+    }
+
     submitButton.prop("disabled", disableButton);
 }
 
@@ -55,8 +69,8 @@ function changeEmailStatus(error: boolean) {
     emailContainer.addClass(error ? "negative" : "positive");
 }
 
-function changePasswordStatus(error: boolean) {
-    changeError(error ? "As senhas devem coincidir" : undefined);
+function changePasswordStatus(error: boolean, msg: string = "As senhas devem coincidir") {
+    changeError(error ? msg : undefined);
     passwordCheckContainer.removeClass(error ? "positive" : "negative");
     passwordCheckContainer.addClass(error ? "negative" : "positive");
     passwordContainer.removeClass(error ? "positive" : "negative");

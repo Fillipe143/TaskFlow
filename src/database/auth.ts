@@ -3,19 +3,15 @@ import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, up
 import { app } from "./firebase";
 import { AuthError, mapAuthError } from "./types/AuthError";
 import { updateRoute } from "../utils/updateRoute";
-import * as state from "../utils/state"
 
 const fbAuth = getAuth(app);
 
 fbAuth.onAuthStateChanged(user => {
-    state.set("currentUser", user);
     updateRoute(user !== null)
 });
 
-export function currentUser(): User | null{
-    const user = state.get("currentUser");
-    if (user) return user as User;
-    return null;
+export function onUserChange(callback: (user: User | null) => void) {
+    fbAuth.onAuthStateChanged(_ => callback(fbAuth.currentUser));
 }
 
 export async function loginWithEmail(email: string, password: string): Promise<AuthError | undefined>{
