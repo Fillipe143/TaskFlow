@@ -42,6 +42,7 @@
 
 .sidebar .option span {
     margin-right: 24px;
+    color: var(--disabled-dark-color);
 }
 
 .sidebar .fill {

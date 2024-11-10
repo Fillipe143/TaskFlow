@@ -24,7 +24,8 @@
     cursor: pointer;
 }
 
-.input-container.search input:hover ~ span {
+.input-container.search input:hover ~ span,
+.input-container.search input:not(:placeholder-shown) ~ span {
     color: var(--disabled-dark-color);
 }
 
@@ -32,6 +33,6 @@
     display: none;
 }
 
-.input-container.search input:not(:placeholder-shown) ~ .close-icon{
+.input-container.search input:not(:placeholder-shown) ~ .close-icon {
     display: block;
 }
