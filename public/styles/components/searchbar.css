@@ -1,0 +1,37 @@
+@import "../components/input.css";
+
+.input-container.search {
+    position: relative;
+}
+
+.input-container.search input {
+    padding: 12px;
+    border-radius: 100px;
+}
+
+.input-container.search span {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    color: var(--disabled-color);
+    transform: translate(-50%, -50%);
+    transition: .5s ease;
+    cursor: default;
+}
+
+.input-container.search .close-icon {
+    display: none;
+    cursor: pointer;
+}
+
+.input-container.search input:hover ~ span {
+    color: var(--disabled-dark-color);
+}
+
+.input-container.search input:not(:placeholder-shown) ~ .search-icon{
+    display: none;
+}
+
+.input-container.search input:not(:placeholder-shown) ~ .close-icon{
+    display: block;
+}

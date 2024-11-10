@@ -1,9 +1,19 @@
 @import "../global.css";
 @import "../components/sidebar.css";
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,logout,mail");
+@import "../components/searchbar.css";
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,close,logout,mail,search");
+
+body {
+    display: flex;
+    flex-direction: row;
+}
 
 body.dismiss {
     display: none;
+}
+
+main {
+    flex-grow: 1;
 }
 
 h1 span {
@@ -12,4 +22,8 @@ h1 span {
 
 #exit, #exit span {
     color: var(--negative-color);
+}
+
+.search {
+    margin: 32px;
 }

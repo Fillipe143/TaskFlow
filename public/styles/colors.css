@@ -9,6 +9,8 @@
     --negative-dark-color: #D32F2F;
 
     --disabled-color: #AAA;
+    --disabled-dark-color: #555;
+    
     --hover-color: #EEE;
     --text-color: #282828;
 }

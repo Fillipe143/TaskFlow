@@ -4,7 +4,7 @@
     margin-top: 8px;
 }
 
-.input-container { --input-color: black; }
+.input-container { --input-color: var(--disabled-dark-color); }
 .input-container.neutro { --input-color: var(--neutro-color); }
 .input-container.positive { --input-color: var(--positive-color); }
 .input-container.negative { --input-color: var(--negative-color); }
@@ -14,6 +14,7 @@
     border: 1px solid var(--disabled-color);
     border-radius: 5px;
     font-size: 16px;
+    width: 100%;
 }
 
 .input-container label {
