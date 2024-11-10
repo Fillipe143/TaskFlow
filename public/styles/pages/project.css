@@ -1,0 +1,25 @@
+@import "../global.css";
+@import "../components/loader.css";
+
+body {
+    display: flex;
+}
+
+.loader:not(.dismiss) {
+    display: flex;
+    flex-direction: column;
+    background-color: white !important;
+}
+
+textarea {
+    box-sizing: border-box;
+    width: 50%;
+    height: 100%;
+    font-size: medium;
+    padding: 8px;
+    resize: none;
+}
+
+.container {
+    width: 50%;
+}

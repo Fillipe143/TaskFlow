@@ -28,6 +28,11 @@ export default {
         },
         {
             match: 'routes',
+            src: '/project',
+            dest: '/pages/project.html'
+        },
+        {
+            match: 'routes',
             src: '.*',
             dest: '/pages/errors/404.html'
         },

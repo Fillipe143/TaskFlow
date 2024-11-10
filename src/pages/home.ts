@@ -3,7 +3,7 @@ import "../components/sidebar";
 import "../components/searchbar";
 
 import * as auth from "../database/auth";
-import * as dbProjects from "../database/models/project";
+import * as projectDB from "../database/models/projectDB";
 
 auth.onUserChange(async user => {
     if (!user) return;
@@ -17,7 +17,7 @@ auth.onUserChange(async user => {
 })
 
 async function loadProjects() {
-    const projects = await dbProjects.getAll();
+    const projects = await projectDB.getAll();
     projects.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
     if (projects.length === 0) return $("#noprojects").removeClass("dismiss");
@@ -62,7 +62,7 @@ function createProject() {
 
         const loader = $(".loader");
         loader.removeClass("dismiss");
-        dbProjects.create(projectName)
+        projectDB.create(projectName)
         .then(async _ => {
             await loadProjects();
             loader.addClass("dismiss");
@@ -79,13 +79,15 @@ function createProject() {
     nameField.trigger("focus");
 }
 
-function projectTemplate(project: dbProjects.Project): JQuery<HTMLElement> {
-    return $(`
+function projectTemplate(project: projectDB.Project): JQuery<HTMLElement> {
+    const template = $(`
         <li>
             <h3>${project.name}</h3>
             <span>${formateDate(project.createdAt)}</span>
         </li>
     `);
+    template.on("click", _ => openProject(project.id));
+    return template;
 }
 
 function formateDate(date: Date): string {
@@ -97,4 +99,8 @@ function formateDate(date: Date): string {
     const second = date.getSeconds()
 
     return `${day}/${month}/${year} ${hour}:${minute}:${second}`;
+}
+
+function openProject(id: string) {
+    window.location.href = `/project?id=${id}`;
 }

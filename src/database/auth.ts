@@ -7,6 +7,7 @@ import { updateRoute } from "../utils/updateRoute";
 const fbAuth = getAuth(app);
 
 fbAuth.onAuthStateChanged(user => {
+    console.log(user)
     updateRoute(user !== null)
 });
 
