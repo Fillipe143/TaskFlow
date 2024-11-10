@@ -14,5 +14,5 @@ input {
 }
 
 body.dismiss {
-    opacity: 0;
+display: none;
 }

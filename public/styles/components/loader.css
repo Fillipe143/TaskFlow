@@ -1,10 +1,9 @@
-.loader {
-    position: absolute;
-    width: 0;
-    height: 0;
+.dismiss {
+    display: none;
 }
 
 .loader:not(.dismiss) {
+    position: absolute;
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.8);
