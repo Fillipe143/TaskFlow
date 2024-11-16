@@ -5,6 +5,9 @@ import "../components/searchbar";
 import * as auth from "../database/auth";
 import * as projectDB from "../database/models/projectDB";
 
+let allProjects: Array<projectDB.Project> = [];
+let visibleProjects: Array<projectDB.Project>= [];
+
 auth.onUserChange(async user => {
     if (!user) return;
     if (user.displayName) $("#username").text(user.displayName);
@@ -14,14 +17,23 @@ auth.onUserChange(async user => {
     $("#create").on("click", _ => createProject())
     $("#exit").on("click", _ => auth.logout());
     await loadProjects();
+
+    const searchInput = $("#search");
+    searchInput.on("input", _ => filterProjects((searchInput.val()?.toString() || "").trim()));
+    $("#close-search").on("click", _ => filterProjects(""));
 })
 
 async function loadProjects() {
-    const projects = await projectDB.getAll();
-    projects.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    allProjects = await projectDB.getAll();
+    visibleProjects = allProjects;
+    updateProjectList();
+}
+
+async function updateProjectList() {
+    visibleProjects.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
     const projectsContainer = $(".projects");
-    if (projects.length === 0) {
+    if (visibleProjects.length === 0) {
         projectsContainer.addClass("dismiss");
         $("#noprojects").removeClass("dismiss");
         return;
@@ -33,7 +45,7 @@ async function loadProjects() {
     $("#noprojects").addClass("dismiss");
     projectsContainer.removeClass("dismiss");
 
-    projects.forEach(project => {
+    visibleProjects.forEach(project => {
         projectsList.append(projectTemplate(project));
     });
 }
@@ -160,4 +172,9 @@ function deleteProject(id: string) {
                 loader.addClass("dismiss");
             });
     });
+}
+
+function filterProjects(name: string) {
+    visibleProjects = allProjects.filter(project => project.name.toLowerCase().startsWith(name.toLowerCase()));
+    updateProjectList();
 }
