@@ -6,6 +6,11 @@ body {
     display: flex;
 }
 
+strong,
+strong i {
+    font-weight: bold;
+}
+
 .loader:not(.dismiss) {
     display: flex;
     flex-direction: column;

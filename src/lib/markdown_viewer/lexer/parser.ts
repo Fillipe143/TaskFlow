@@ -12,7 +12,7 @@ function parseToken(token: Token): string {
         case TokenKind.LINK: return `<a href="${token.url}" target="_blank">${token.content}</a>`;
         case TokenKind.IMG: return `<img src="${token.url}" alt="${token.content}">`;
         case TokenKind.HEADER: return `<h${token.weight}>${parseTokens(token.content)}</h${token.weight}>`;
-        case TokenKind.ITALIC: return ``;
-        case TokenKind.BOLD: return ``;
+        case TokenKind.ITALIC: return `<i>${parseTokens(token.content)}</i>`;
+        case TokenKind.BOLD: return `<strong>${parseTokens(token.content)}</strong>`;
     }
 }

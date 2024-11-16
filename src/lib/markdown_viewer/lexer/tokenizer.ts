@@ -32,7 +32,7 @@ function nextToken(lexer: Lexer): Token {
         case "#": return readHeader(lexer);
         case "[": return readLink(lexer);
         case "!": return readImage(lexer);
-        case "*": return readTextDecorator(lexer);
+        case "*": case "_": return readTextDecorator(lexer);
         case "\n":
             lexer.readChar();
             return { kind: TokenKind.NL };
@@ -98,5 +98,48 @@ function readImage(lexer: Lexer): Token {
 }
 
 function readTextDecorator(lexer: Lexer): Token {
-    return { kind: TokenKind.TEXT, content: lexer.readChar() };
+    let specialChar = lexer.readChar();
+    const token = lexer.peekChar() === specialChar ? readBold(lexer, specialChar) : readItalic(lexer, specialChar);
+
+    if (token.kind == TokenKind.TEXT) return { kind: TokenKind.TEXT, content: specialChar + token.content};
+    return token;
+}
+
+function readBold(lexer: Lexer, specialChar: string): Token {
+    let fullContent = lexer.readChar();
+
+    let content = "";
+    let lastChar = "";
+    while (!lexer.isEOF() && !(lexer.peekChar() === specialChar && lastChar === specialChar) && lexer.peekChar() !== "\n") {
+        lastChar = lexer.readChar();
+        content += lastChar;
+    }
+
+    if (lexer.peekChar() === specialChar && lastChar === specialChar) {
+        while (!lexer.isEOF() && lexer.peekChar() === specialChar) {
+            content += lexer.readChar();
+        }
+        content = content.substring(0, content.length - 2);
+        const tokens = tokenizer(content);
+        return { kind: TokenKind.BOLD, content: tokens };
+    }
+
+    fullContent += content + lexer.readChar();
+    return { kind: TokenKind.TEXT, content: fullContent };
+}
+
+function readItalic(lexer: Lexer, specialChar: string): Token {
+    let content = "";
+    while (!lexer.isEOF() && lexer.peekChar() !== specialChar && lexer.peekChar() !== "\n") {
+        content += lexer.readChar();
+    }
+
+    if (lexer.peekChar() === specialChar) {
+        lexer.readChar();
+        const tokens = tokenizer(content);
+        return { kind: TokenKind.ITALIC, content: tokens };
+    }
+
+    content += lexer.readChar();
+    return { kind: TokenKind.TEXT, content: content };
 }
