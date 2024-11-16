@@ -158,7 +158,7 @@ function tryToReadNewLine(lexer: Lexer): Token | undefined {
             content += lexer.readChar();
         }
 
-        if (lexer.isEOF() || lexer.peekChar() === "\n" && content.length >= 3) {
+        if ((lexer.isEOF() || lexer.peekChar() === "\n") && content.length >= 3) {
             return { kind: TokenKind.HLINE };
         }
     }
