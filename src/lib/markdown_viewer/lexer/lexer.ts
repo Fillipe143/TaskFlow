@@ -2,10 +2,15 @@ export class Lexer {
     public source: string;
     private index: number;
     private length: number;
+    public isNewLine: boolean = true;
 
+    private savedIndex: number;
+    private savedIsNewLine: boolean = true;
+    
     constructor(source: string) {
         this.source = source;
         this.index = 0;
+        this.savedIndex = 0;
         this.length = source.length;
     }
 
@@ -20,7 +25,9 @@ export class Lexer {
 
     public readChar(): string {
         if (this.isEOF()) return "";
-        return this.source[this.index++];
+        const char = this.source[this.index++];
+        this.isNewLine = char === "\n";
+        return char;
     }
 
     public consumeWhiteSpaces() {
@@ -29,5 +36,15 @@ export class Lexer {
             this.readChar();
             currChar = this.peekChar();
         }
+    }
+
+    public save() {
+        this.savedIndex = this.index;
+        this.savedIsNewLine = this.isNewLine;
+    }
+
+    public restore() {
+        this.index = this.savedIndex;
+        this.isNewLine = this.savedIsNewLine;
     }
 }

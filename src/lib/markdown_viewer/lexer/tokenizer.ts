@@ -28,6 +28,11 @@ function readTokensAt(lexer: Lexer, shouldEnd: (t: Token) => boolean): Token[] {
 function nextToken(lexer: Lexer): Token {
     if (lexer.isEOF()) return { kind: TokenKind.EOF };
 
+    if (lexer.isNewLine) {
+        const token = tryToReadNewLine(lexer);
+        if (token) return token;
+    }
+
     switch (lexer.peekChar()) {
         case "#": return readHeader(lexer);
         case "[": return readLink(lexer);
@@ -142,4 +147,22 @@ function readItalic(lexer: Lexer, specialChar: string): Token {
 
     content += lexer.readChar();
     return { kind: TokenKind.TEXT, content: content };
+}
+
+function tryToReadNewLine(lexer: Lexer): Token | undefined {
+    lexer.save();
+
+    if (lexer.peekChar() === "-") {
+        let content = lexer.readChar();
+        while (!lexer.isEOF() && lexer.peekChar() === "-") {
+            content += lexer.readChar();
+        }
+
+        if (lexer.isEOF() || lexer.peekChar() === "\n" && content.length >= 3) {
+            return { kind: TokenKind.HLINE };
+        }
+    }
+
+    lexer.restore();
+    return undefined;
 }

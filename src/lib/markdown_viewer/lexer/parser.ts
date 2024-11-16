@@ -8,6 +8,7 @@ function parseToken(token: Token): string {
     switch (token.kind) {
         case TokenKind.NL: return "<br>";
         case TokenKind.EOF: return "";
+        case TokenKind.HLINE: return "<hr>";
         case TokenKind.TEXT: return token.content.trim();
         case TokenKind.LINK: return `<a href="${token.url}" target="_blank">${token.content}</a>`;
         case TokenKind.IMG: return `<img src="${token.url}" alt="${token.content}">`;

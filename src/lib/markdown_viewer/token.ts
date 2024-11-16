@@ -1,6 +1,7 @@
 export enum TokenKind {
     NL = "new line",
     EOF = "end of file",
+    HLINE = "horizontal line",
     TEXT = "text",
     HEADER = "header",
     LINK = "link",
@@ -14,6 +15,7 @@ export type HeaderWeight = 1 | 2 | 3 | 4 | 5;
 export type Token =
     | { kind: TokenKind.NL; }
     | { kind: TokenKind.EOF; }
+    | { kind: TokenKind.HLINE; }
     | { kind: TokenKind.TEXT; content: string }
     | { kind: TokenKind.HEADER; weight: HeaderWeight; content: Token[]; }
     | { kind: TokenKind.LINK; url: string; content: string; }
