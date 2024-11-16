@@ -7,7 +7,7 @@ body {
 }
 
 strong,
-strong i {
+strong em {
     font-weight: bold;
 }
 
