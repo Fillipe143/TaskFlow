@@ -3,12 +3,13 @@ import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, up
 import { app } from "./firebase";
 import { AuthError, mapAuthError } from "./types/AuthError";
 import { updateRoute } from "../utils/updateRoute";
+import * as userDB from "./models/userDB";
 
+let autoRouteUpdate = true;
 const fbAuth = getAuth(app);
 
 fbAuth.onAuthStateChanged(user => {
-    console.log(user)
-    updateRoute(user !== null)
+    if (autoRouteUpdate) updateRoute(user !== null)
 });
 
 export function getCurrentUser(): User | null {
@@ -27,8 +28,11 @@ export async function loginWithEmail(email: string, password: string): Promise<A
 
 export async function registerUser(name: string, email: string, password: string): Promise<AuthError | undefined>  {
     try {
-        const userCredential = await createUserWithEmailAndPassword(fbAuth, email, password);
-        await updateProfile(userCredential.user, { displayName: name });
+        autoRouteUpdate = false;
+        await createUserWithEmailAndPassword(fbAuth, email, password);
+        await userDB.create(name);
+        autoRouteUpdate = true;
+        updateRoute(getCurrentUser() != null);
     } catch (error: any) { return mapAuthError(error.code); }
     return undefined;
 }
