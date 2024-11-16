@@ -15,5 +15,6 @@ function parseToken(token: Token): string {
         case TokenKind.HEADER: return `<h${token.weight}>${parseTokens(token.content)}</h${token.weight}>`;
         case TokenKind.ITALIC: return `<em>${parseTokens(token.content)}</em>`;
         case TokenKind.BOLD: return `<strong>${parseTokens(token.content)}</strong>`;
+        case TokenKind.CODE: return `<code>${token.content}</code>`;
     }
 }

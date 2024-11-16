@@ -38,6 +38,7 @@ function nextToken(lexer: Lexer): Token {
         case "[": return readLink(lexer);
         case "!": return readImage(lexer);
         case "*": case "_": return readTextDecorator(lexer);
+        case "`": return readCode(lexer);
         case "\n":
             lexer.readChar();
             return { kind: TokenKind.NL };
@@ -149,12 +150,30 @@ function readItalic(lexer: Lexer, specialChar: string): Token {
     return { kind: TokenKind.TEXT, content: content };
 }
 
+function readCode(lexer: Lexer): Token {
+    let fullContent = lexer.readChar();
+
+    let content = "";
+    while (!lexer.isEOF() && lexer.peekChar() !== "`" && lexer.peekChar() !== "\n") {
+        content += lexer.readChar();
+    }
+
+    if (lexer.peekChar() === "`") {
+        lexer.readChar();
+        console.log("teste")
+        return { kind: TokenKind.CODE, content };
+    }
+
+    fullContent += content + lexer.readChar();
+    return { kind: TokenKind.TEXT, content: content };
+}
+
 function tryToReadNewLine(lexer: Lexer): Token | undefined {
     lexer.save();
 
-    if (lexer.peekChar() === "-") {
+    if (lexer.peekChar() === "-" || lexer.peekChar() === "*" || lexer.peekChar() === "_") {
         let content = lexer.readChar();
-        while (!lexer.isEOF() && lexer.peekChar() === "-") {
+        while (!lexer.isEOF() && lexer.peekChar() === content[0]) {
             content += lexer.readChar();
         }
 

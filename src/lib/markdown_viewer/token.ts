@@ -7,7 +7,8 @@ export enum TokenKind {
     LINK = "link",
     IMG = "image",
     ITALIC = "italic",
-    BOLD = "bold"
+    BOLD = "bold",
+    CODE = "code"
 };
 
 export type HeaderWeight = 1 | 2 | 3 | 4 | 5;
@@ -21,4 +22,5 @@ export type Token =
     | { kind: TokenKind.LINK; url: string; content: string; }
     | { kind: TokenKind.IMG; url: string; content: string; }
     | { kind: TokenKind.ITALIC; content: Token[]; }
-    | { kind: TokenKind.BOLD; content: Token[]; };
+    | { kind: TokenKind.BOLD; content: Token[]; }
+    | { kind: TokenKind.CODE; content: string };
