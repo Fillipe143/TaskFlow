@@ -20,10 +20,14 @@ async function loadProjects() {
     const projects = await projectDB.getAll();
     projects.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
-    if (projects.length === 0) return $("#noprojects").removeClass("dismiss");
-
     const projectsContainer = $(".projects");
-    const projectsList= $("#projects-list");
+    if (projects.length === 0) {
+        projectsContainer.addClass("dismiss");
+        $("#noprojects").removeClass("dismiss");
+        return;
+    }
+
+    const projectsList = $("#projects-list");
     projectsList.empty();
 
     $("#noprojects").addClass("dismiss");
@@ -35,23 +39,29 @@ async function loadProjects() {
 }
 
 function createProject() {
-    const dialogContainer = $(".dialog-container");
+    const dialogContainer = $("#dialog-create");
     const dialog = dialogContainer.find(".dialog");
     const nameField = dialogContainer.find("#project-name");
+    const descriptionField = dialogContainer.find("#project-desc");
     const confirmButton = dialogContainer.find("#create-project");
 
     nameField.val("");
+    descriptionField.val("");
     confirmButton.prop("disabled", true);
     dialog.on("click" , e => e.stopPropagation());
 
-    nameField.on("input", _ => {
-        confirmButton.prop("disabled", (nameField.val()?.toString() || "").trim() === "");
-    });
+    const disableButton = () => 
+        confirmButton.prop("disabled", (nameField.val()?.toString() || "").trim() === "" || 
+                                       (descriptionField.val()?.toString() || "").trim() === "");
+
+    nameField.on("input", _ => disableButton());
+    descriptionField.on("input", _ => disableButton());
 
     dialogContainer.on("click", _ => {
         dialogContainer.removeClass("show");
         dialog.off("click");
         nameField.off("input");
+        descriptionField.off("input");
         dialogContainer.off("click");
         confirmButton.off("click");
     });
@@ -59,10 +69,11 @@ function createProject() {
     confirmButton.on("click", e => {
         e.preventDefault();
         const projectName = nameField.val()?.toString().trim() || "Sem nome";
+        const projectDescription = descriptionField.val()?.toString().trim() || "Sem descrição";
 
         const loader = $(".loader");
         loader.removeClass("dismiss");
-        projectDB.create(projectName)
+        projectDB.create(projectName, projectDescription)
         .then(async _ => {
             await loadProjects();
             loader.addClass("dismiss");
@@ -71,6 +82,7 @@ function createProject() {
         dialogContainer.removeClass("show");
         dialog.off("click");
         nameField.off("input");
+        descriptionField.off("input");
         dialogContainer.off("click");
         confirmButton.off("click");
     });
@@ -81,26 +93,71 @@ function createProject() {
 
 function projectTemplate(project: projectDB.Project): JQuery<HTMLElement> {
     const template = $(`
-        <li>
+       <li>
+            <div class="icons">
+                <span class="material-symbols-outlined info">info</span>
+                <span class="material-symbols-outlined delete">delete</span>
+            </div>
             <h3>${project.name}</h3>
-            <span>${formateDate(project.createdAt)}</span>
         </li>
     `);
+    template.find(".info").on("click", e => {
+        e.stopPropagation();
+        showInfo(project)
+    });
+    template.find(".delete").on("click", e => {
+        e.stopPropagation();
+        deleteProject(project.id)
+    });
     template.on("click", _ => openProject(project.id));
     return template;
 }
 
-function formateDate(date: Date): string {
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    const hour = date.getHours();
-    const minute = date.getMinutes();
-    const second = date.getSeconds()
-
-    return `${day}/${month}/${year} ${hour}:${minute}:${second}`;
-}
-
 function openProject(id: string) {
     window.location.href = `/project?id=${id}`;
+}
+
+function showInfo(project: projectDB.Project) {
+    const dialogContainer = $("#dialog-info");
+
+    dialogContainer.find("#project-name").text(project.name);
+    dialogContainer.find("#project-desc").text(project.description);
+    dialogContainer.find("#project-date").text(project.createdAt.toLocaleDateString());
+    dialogContainer.addClass("show");
+
+    dialogContainer.on("click", _ => {
+        dialogContainer.removeClass("show");
+        dialogContainer.off("click");
+    });
+}
+
+function deleteProject(id: string) {
+    const dialogContainer = $("#dialog-delete");
+    const cancelButton = dialogContainer.find("#cancel");
+    const deleteButton = dialogContainer.find("#delete");
+    const loader = $(".loader");
+
+    dialogContainer.addClass("show");
+    dialogContainer.on("click", e => {
+        dialogContainer.removeClass("show");
+        dialogContainer.off("click");
+    });
+
+    cancelButton.on("click", e => {
+        e.preventDefault();
+        dialogContainer.removeClass("show");
+        cancelButton.off("click");
+    });
+
+    deleteButton.on("click", e => {
+        e.preventDefault();
+        dialogContainer.removeClass("show");
+        deleteButton.off("click");
+            loader.removeClass("dismiss");
+            projectDB.remove(id)
+            .then(async _ => {
+                await loadProjects();
+                loader.addClass("dismiss");
+            });
+    });
 }

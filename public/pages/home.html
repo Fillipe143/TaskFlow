@@ -14,15 +14,38 @@
             <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
         </svg>
     </div>
-    <div class="dialog-container">
+
+    <div class="dialog-container" id="dialog-create">
         <form class="dialog">
             <h3>Criar projeto</h3>
             <div class="input-container neutro">
                 <input type="text" placeholder="" id="project-name">
                 <label for="project-name">Nome do projeto</label>
             </div>
+            <div class="input-container neutro fill">
+                <textarea id="project-desc" placeholder=""></textarea>
+                <label for="project-desc">Descrição</label>
+            </div>
             <input type="submit" value="Criar" class="positive" id="create-project" disabled/>
-        <form>
+        </form>
+    </div>
+
+    <div class="dialog-container" id="dialog-info">
+        <div class="dialog">
+            <h1 id="project-name">Nome Projeto</h1> 
+            <h3 id="project-date">2024/11/15</h3>                      
+            <p id="project-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste corporis quas voluptatum laudantium illum sed eaque. Fuga nihil voluptate inventore nisi exercitationem ipsam totam velit! Facere aliquid id nulla odio?</p> <br>
+        </div>
+    </div>
+
+    <div class="dialog-container" id="dialog-delete">
+        <form class="dialog">
+            <h2> Você deseja deletar o projeto? Isso não pode ser desfeito!</h2> <br>
+            <div>
+                <input type="submit" class="negative" value="Deletar" id="delete"/>
+                <input type="submit" class="positive" value="Cancelar" id="cancel"/>
+            </div>
+        </form>
     </div>
 
     <div class="sidebar">

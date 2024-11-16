@@ -1,4 +1,4 @@
-import { addDoc, collection, CollectionReference, doc, DocumentData, DocumentReference, getDoc, getDocs, orderBy, query, Timestamp, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, CollectionReference, deleteDoc, doc, DocumentData, DocumentReference, getDoc, getDocs, orderBy, query, Timestamp, updateDoc, where } from "firebase/firestore";
 
 import { db } from "../firestore";
 import * as auth from "../auth";
@@ -6,6 +6,7 @@ import * as auth from "../auth";
 export type Project = {
     id: string,
     name: string,
+    description: string,
     createdAt: Date,
     authorsId: Array<string>,
     content: string
@@ -46,12 +47,19 @@ export async function getAll(): Promise<Array<Project>> {
     });
 }
 
-export async function create(name: string): Promise<boolean> {
+export async function create(name: string, description: string): Promise<boolean> {
     try {
         const user = auth.getCurrentUser();
-        const project = { name, createdAt: Timestamp.now(), authorsId: [user?.uid], content: "" };
+        const project = { name, description, createdAt: Timestamp.now(), authorsId: [user?.uid], content: "" };
 
         await addDoc(getRef(), project);
+        return true;
+    } catch (error: any) { return false; }
+}
+
+export async function remove(id: string): Promise<boolean> {
+    try {
+        await deleteDoc(doc(db, "projects", id));
         return true;
     } catch (error: any) { return false; }
 }
