@@ -3,17 +3,21 @@ import "../components/sidebar";
 import "../components/searchbar";
 
 import * as auth from "../database/auth";
+import * as userDB from "../database/models/userDB";
 import * as projectDB from "../database/models/projectDB";
 
 let allProjects: Array<projectDB.Project> = [];
 let visibleProjects: Array<projectDB.Project>= [];
 
+
 auth.onUserChange(async user => {
     if (!user) return;
-    if (user.displayName) $("#username").text(user.displayName);
-    if (user.photoURL) $("#userphoto").attr("src", user.photoURL);
+    userDB.get().then(user => {
+        if (user?.name) $("#username").text(user.name);
+        if (user?.photoUrl) $("#userphoto").attr("src", user.photoUrl);
+        $(document.body).removeClass("dismiss");
+    });
 
-    $(document.body).removeClass("dismiss");
     $("#create").on("click", _ => createProject())
     $("#exit").on("click", _ => auth.logout());
     await loadProjects();
@@ -21,7 +25,7 @@ auth.onUserChange(async user => {
     const searchInput = $("#search");
     searchInput.on("input", _ => filterProjects((searchInput.val()?.toString() || "").trim()));
     $("#close-search").on("click", _ => filterProjects(""));
-})
+});
 
 async function loadProjects() {
     allProjects = await projectDB.getAll();
