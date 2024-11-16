@@ -54,7 +54,7 @@ function readHeader(lexer: Lexer): Token {
 
     return {
         kind: TokenKind.HEADER,
-        weight: Math.max(Math.min(weight, 5), 0) as HeaderWeight,
+        weight: Math.max(Math.min(weight, 6), 0) as HeaderWeight,
         content: content
     };
 }
@@ -98,5 +98,5 @@ function readImage(lexer: Lexer): Token {
 }
 
 function readTextDecorator(lexer: Lexer): Token {
-    return { kind: TokenKind.TEXT, content: "" };
+    return { kind: TokenKind.TEXT, content: lexer.readChar() };
 }

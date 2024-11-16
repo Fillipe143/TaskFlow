@@ -3,6 +3,9 @@ import * as auth from "../database/auth";
 import * as projectDB from "../database/models/projectDB";
 import { mdToHtml } from "../lib/markdown_viewer";
 
+const body = $("body");
+const flip = $("#flip");
+const fullscreen= $("#fullscreen");
 const loader = $(".loader");
 const textarea = $("textarea");
 const loaderMsg = loader.find("p");
@@ -10,6 +13,15 @@ const htmlContainer = $(".container")
 
 const urlParams = new URLSearchParams(window.location.search);
 const projectId = urlParams.get("id") || "";
+
+if (window.localStorage.getItem(`${projectId}-isVertical`) === "true") {
+    body.addClass("vertical");
+    flip.text("float_landscape_2");
+}
+if (window.localStorage.getItem(`${projectId}-fullscreen`) === "true") {
+    body.addClass("fullscreen");
+    fullscreen.text("fullscreen_exit");
+}
 
 auth.onUserChange(async _ => {
     const project = await projectDB.get(projectId);
@@ -29,6 +41,19 @@ auth.onUserChange(async _ => {
     });
 
     textarea.on("input", _ => updateHtmlContainer());
+
+    flip.on("click", _ => {
+        body.toggleClass("vertical");
+        const isVertical = body.hasClass("vertical");
+        flip.text(isVertical ? "float_landscape_2" : "float_portrait_2");
+        window.localStorage.setItem(`${projectId}-isVertical`, isVertical.toString());
+    });
+    fullscreen.on("click", _ => {
+        body.toggleClass("fullscreen");
+        const inFullscreen = body.hasClass("fullscreen");
+        fullscreen.text(inFullscreen ? "fullscreen_exit" : "fullscreen");
+        window.localStorage.setItem(`${projectId}-fullscreen`, inFullscreen.toString());
+    });
 });
 
 async function saveContent() {
