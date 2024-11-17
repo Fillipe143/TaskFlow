@@ -1,1 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
 @import "./color.css";
+
+* {
+    padding: 0;
+    margin: 0;
+
+    font-family: "Source Sans 3", sans-serif;
+    color: var(--text-color);
+    font-weight: normal;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: var(--positive-color);
+}
+
+a:hover {
+    color: var(--darker-positive-color);
+}
