@@ -1,0 +1,17 @@
+.dialog-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.dialog-container.show {
+    display: flex;
+}
