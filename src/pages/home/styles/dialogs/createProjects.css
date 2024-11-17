@@ -1,0 +1,15 @@
+#create-project form {
+    background-color: var(--background-color);
+    width: 45%;
+    padding: 32px;
+    border-radius: 8px;
+}
+
+#create-project h3 {
+    font-size: x-large;
+    margin: 8px 8px 16px 8px;
+}
+
+#create-project input[type=submit] {
+    margin-top: 16px;
+}

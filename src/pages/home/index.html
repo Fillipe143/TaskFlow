@@ -9,6 +9,23 @@
     <script type="module" src="/pages/home/index.js"></script>
 </head>
 <body>
+    <div class="dialog-container show" data-opacity="0.5" id="create-project">
+        <form>
+            <h3>Novo Projeto</h3>
+            <div class="input-container">
+                <input type="text" placeholder="" id="project-name">
+                <label for="project-name">Nome</label>
+            </div>
+            <div class="input-container">
+                <textarea placeholder="" rows="5" id="project-description"></textarea>
+                <label for="project-description">Descrição</label>
+            </div>
+            <div class="input-container">
+                <input type="submit" value="Criar" />
+            </div>
+        </form>
+    </div>
+
     <div class="resizable-container">
         <div class="resize-child sidebar" data-min="0.2">
             <h1>Task<span>Flow</span></h1>

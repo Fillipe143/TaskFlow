@@ -7,8 +7,12 @@ export class Dialog {
     }
 
     private setup() {
-        if(!this.container.classList.contains("closable")) return;
-        this.container.addEventListener("click", _ => this.dismiss());
+        if(this.container.classList.contains("closable")) {
+            this.container.addEventListener("click", _ => this.dismiss());
+        }
+
+        const opacity = this.container.getAttribute("data-opacity");
+        if (opacity !== null) this.container.style.backgroundColor = `rgba(0, 0, 0, ${opacity})`;
     }
 
     public static FromId(id: string): Dialog {

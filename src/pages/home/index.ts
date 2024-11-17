@@ -1,6 +1,9 @@
 //import "../../database/auth";
 import "../../components/resizable/script";
+import "../../components/dialog/script";
+import { Dialog } from "../../components/dialog/script";
 
+const createProjectDialog = Dialog.FromId("create-project");
 const projectsUList = document.getElementById("projects-list") as HTMLUListElement;
 
 function ajustar() {
