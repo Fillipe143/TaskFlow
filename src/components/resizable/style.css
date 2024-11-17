@@ -1,0 +1,28 @@
+.resizable-container {
+    display: flex;
+
+    width: 100%;
+    height: 100%;
+}
+
+.resizable-container .resize-child {
+    flex: auto;
+}
+
+.resizable-container .resize-handle {
+    width: 5px;
+    height: 100%;
+    cursor: ew-resize;
+    background-color: var(--border-color);
+    box-shadow: inset 0 0  0 2px var(--background-color);
+}
+
+.resizable-container.vertical {
+    flex-direction: column;
+}
+
+.resizable-container.vertical .resize-handle {
+    width: 100%;
+    height: 5px;
+    cursor: ns-resize;
+}
