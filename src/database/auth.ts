@@ -1,4 +1,4 @@
-import { getAuth, User, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 
 import { app } from "./firebase";
 import { mapAuthError } from "../utils/mapAuthError";
@@ -13,6 +13,10 @@ fbAuth.onAuthStateChanged(user => {
     if (enableRouteUpdate) updateRoute(isLogged);
     if (isLogged && onUserLoggedCallback) onUserLoggedCallback(user);
 });
+
+export function getCurrentUser(): User | null {
+    return fbAuth.currentUser;
+}
 
 export function onUserLogged(callback: (user: User) => void) {
     onUserLoggedCallback = callback;
