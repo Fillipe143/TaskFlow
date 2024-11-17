@@ -1,6 +1,7 @@
 :root {
     --background-color: #FFFFFF;
-    --darker-background-color: #F0F0F0;
+    --soft-background-color: #F0F0F0;
+    --darker-background-color: #CCCCCC;
 
     --border-color: #D3D3D3;
     --darker-border-color: #808080;
@@ -13,5 +14,5 @@
 
     --text-color: #333333;
     --soft-text-color: #808080;
-    --lighter-text-color: #F0F0F0;
+    --lighter-text-color: white;
 }

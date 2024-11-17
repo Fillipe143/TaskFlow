@@ -1,0 +1,29 @@
+input[type=submit] {
+    display: inline-block;
+
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+
+    width: 100%;
+    padding: 8px;
+
+    border: none;
+    border-radius: 4px;
+
+    color: var(--lighter-text-color);
+    box-sizing: border-box;
+}
+
+input[type=submit] { background-color: var(--positive-color); }
+input[type=submit]:hover { background-color: var(--darker-positive-color); }
+
+input[type=submit].negative { background-color: var(--negative-color); }
+input[type=submit].negative:hover { background-color: var(--darker-negative-color); }
+
+input[type=submit]:disabled, input[type=submit]:disabled:hover {
+    background-color: var(--darker-background-color);
+    color: var(--soft-text-color);
+    cursor: default;
+}
