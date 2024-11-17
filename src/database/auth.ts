@@ -1,6 +1,7 @@
 import { getAuth, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 
 import { app } from "./firebase";
+import * as userModel from "./models/userModel";
 import { mapAuthError } from "../utils/mapAuthError";
 import { updateRoute } from "../utils/updateRoute";
 
@@ -32,7 +33,7 @@ export async function registerWithEmail(name: string, email: string, password: s
     try {
         enableRouteUpdate = false;
         await createUserWithEmailAndPassword(fbAuth, email, password);
-        // Adicionar registro no documento de usuários
+        await userModel.create(name);
         enableRouteUpdate = true;
         updateRoute(fbAuth.currentUser !== null);
     } catch (error) { return mapAuthError(error); }

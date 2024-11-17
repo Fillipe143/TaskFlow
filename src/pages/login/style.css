@@ -1,1 +1,69 @@
 @import "../../styles/global.css";
+@import "../../components/input.css";
+@import "../../components/button.css";
+@import "../../components/loader.css";
+@import "../../components/dialog/style.css";
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=info,lock,mail,person");
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    position: absolute;
+    top: 10%;
+    font-size: 48px;
+}
+
+h1 span {
+    color: var(--positive-color);
+}
+
+footer {
+    position: absolute;
+    bottom: 8px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+
+    width: 20%;
+    padding: 32px;
+    border: 1px solid var(--border-color);
+}
+
+@media (max-width: 960px) {
+    form { width: 35%;}
+}
+
+@media (max-width: 480px) {
+    form { width: 60%; }
+}
+
+input {
+    width: 100%;
+}
+
+.input-container, input[type=submit], p {
+    margin-top: 16px;
+}
+
+.error {
+    display: none;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.error i {
+    color: var(--negative-color);
+}
+
+.error span {
+    font-size: medium;
+    color: var(--negative-color);
+    margin-right: 4px;
+}

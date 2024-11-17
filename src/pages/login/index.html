@@ -5,9 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrar</title>
 
-    <link rel="stylesheet" href="/pages/login/style.css"/>
+    <link rel="stylesheet" href="/pages/login/style.css" />
     <script type="module" src="/pages/login/index.js"></script>
 </head>
 <body>
+    <div class="dialog-container" id="loader">
+        <svg class="circular-loader">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
+        </svg>
+    </div>
+
+    <h1>Task<span>Flow</span></h1>
+
+    <form>
+        <h2>Entrar</h2>
+        <div class="input-container">
+            <input type="email" placeholder="" id="email">
+            <label for="email"><span class="material-symbols-outlined">mail</span>Email</label>
+        </div>
+
+        <div class="input-container">
+            <input type="password" placeholder="" id="password">
+            <label for="password"><span class="material-symbols-outlined">lock</span>Senha</label>
+        </div>
+
+        <p class="error"><span class="material-symbols-outlined">info</span><i>Algo deu errado</i></p>
+        <input type="submit" value="Entrar" id="login" disabled />
+
+        <p>Ainda não tem uma conta? <a href="/register">Criar agora!</a></p>
+    </form>
+
+    <footer>TaskFlow ©2024</footer>
 </body>
 </html>
