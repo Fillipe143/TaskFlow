@@ -1,0 +1,17 @@
+:root {
+    --background-color: #FFFFFF;
+    --darker-background-color: #F0F0F0;
+
+    --border-color: #D3D3D3;
+    --darker-border-color: #808080;
+
+    --positive-color: #04AA6D;
+    --darker-positive-color: #028A53;
+
+    --negative-color: #F44336;
+    --darker-negative-color: #D32F2F;
+
+    --text-color: #333333;
+    --soft-text-color: #808080;
+    --lighter-text-color: #F0F0F0;
+}

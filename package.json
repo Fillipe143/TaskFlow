@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "dev": "snowpack dev",
+    "build": "snowpack build",
+    "start": "snowpack start"
+  },
+  "devDependencies": {
+    "@snowpack/plugin-typescript": "^1.2.1",
+    "snowpack": "^3.8.8",
+    "typescript": "^5.6.3"
+  }
+}
