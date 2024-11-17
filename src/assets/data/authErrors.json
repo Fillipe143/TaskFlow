@@ -1,0 +1,20 @@
+{
+    "auth/email-already-in-use": "Este e-mail já está em uso. Tente outro.",
+    "auth/invalid-email": "O e-mail fornecido não é válido. Verifique e tente novamente.",
+    "auth/weak-password": "A senha fornecida é muito fraca. Ela deve ter pelo menos 6 caracteres.",
+    "auth/missing-email": "O e-mail é obrigatório. Por favor, insira um e-mail válido.",
+    "auth/user-not-found": "Nenhum usuário encontrado com esse e-mail. Verifique e tente novamente.",
+    "auth/wrong-password": "A senha fornecida está incorreta. Tente novamente.",
+    "auth/network-request-failed": "Falha na rede. Verifique sua conexão e tente novamente.",
+    "auth/operation-not-allowed": "Essa operação não é permitida. Entre em contato com o administrador.",
+    "auth/too-many-requests": "Você fez muitas tentativas. Tente novamente mais tarde.",
+    "auth/invalid-credential": "As credenciais fornecidas são inválidas. Verifique e tente novamente.",
+    "auth/expired-action-code": "O código de ação expirou. Solicite um novo.",
+    "auth/invalid-action-code": "O código de ação fornecido é inválido. Verifique e tente novamente.",
+    "auth/email-not-found": "O e-mail fornecido não foi encontrado. Verifique e tente novamente.",
+    "auth/account-exists-with-different-credential": "Já existe uma conta associada a esse e-mail com credenciais diferentes.",
+    "auth/credential-already-in-use": "A credencial fornecida já está em uso. Tente outro.",
+    "auth/admin-only-operation": "Somente administradores podem realizar esta operação.",
+    "auth/requires-recent-login": "Para realizar esta ação, é necessário fazer login novamente.",
+    "default": "Ocorreu um erro desconhecido."
+}
