@@ -1,7 +1,7 @@
 {
     const containers = document.getElementsByClassName("resizable-container");
 
-    const minSizeProportion = .2; // 20%
+    const defaultMinSize = 0.2; // 20%
     let isResizing = false;
 
     for (const container of containers) {
@@ -19,7 +19,8 @@
             isResizing = true;
 
             const isVertical = container.classList.contains("vertical");
-            const minSize = (isVertical ? container.offsetHeight : container.offsetWidth) * minSizeProportion;
+            const firstMinSize = (isVertical ? container.offsetHeight : container.offsetWidth) *  Number(firstChild.getAttribute("data-min") || defaultMinSize);
+            const secondMinSize = (isVertical ? container.offsetHeight : container.offsetWidth) * Number(secondChild.getAttribute("data-min") || defaultMinSize);
 
             const startPosition = isVertical ? e.clientY : e.clientX;
             const firstChildStartSize = isVertical ? firstChild.offsetHeight : firstChild.offsetWidth;
@@ -32,13 +33,13 @@
                 let firstChildSize = firstChildStartSize - dp;
                 let secondChildSize = secondChildStartSize + dp;
 
-                if (firstChildSize < minSize) {
-                    secondChildSize -= minSize - firstChildSize;
-                    firstChildSize = minSize;
+                if (firstChildSize < firstMinSize) {
+                    secondChildSize -= firstMinSize - firstChildSize;
+                    firstChildSize = firstMinSize;
                 }
-                if (secondChildSize < minSize) {
-                    firstChildSize -= minSize - secondChildSize;
-                    secondChildSize = minSize;
+                if (secondChildSize < secondMinSize) {
+                    firstChildSize -= secondMinSize - secondChildSize;
+                    secondChildSize = secondMinSize;
                 }
 
                 firstChildSize -= 1;

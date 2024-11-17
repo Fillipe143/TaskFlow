@@ -1,0 +1,54 @@
+header {
+    display: flex;
+    align-items: center;
+}
+
+header .profile {
+    text-align: center;
+    margin: 32px;
+}
+
+header .profile img {
+    width: 45px;
+    border-radius: 50px;
+}
+
+header .input-container {
+    position: relative;
+    margin: 32px;
+    flex-grow: 1;
+}
+
+header .input-container input {
+    border-radius: 100px;
+    padding: 12px;
+}
+
+header .input-container span {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(-50%, -50%);
+    color: var(--darker-border-color);
+    cursor: default;
+}
+
+header .input-container span.close {
+    display: none;
+    cursor: pointer;
+}
+
+header .input-container input:focus,
+header .input-container input:not(:placeholder-shown) {
+    border-color: var(--darker-border-color);
+}
+
+header .input-container input:focus ~ span.search,
+header .input-container input:not(:placeholder-shown) ~ span.search{
+    display: none;
+}
+
+header .input-container input:focus ~ span.close,
+header .input-container input:not(:placeholder-shown) ~ span.close {
+    display: block;
+}

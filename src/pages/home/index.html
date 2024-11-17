@@ -9,5 +9,101 @@
     <script type="module" src="/pages/home/index.js"></script>
 </head>
 <body>
+    <div class="resizable-container">
+        <div class="resize-child sidebar" data-min="0.2">
+            <h1>Task<span>Flow</span></h1>
+
+            <p class="option" id="create"><span class="material-symbols-outlined">add</span>Adicionar</p>
+            <p class="option" id="notification"><span class="material-symbols-outlined">mail</span>Notificações</p>
+    
+            <span class="fill"></span>
+            <p class="option" id="exit"><span class="material-symbols-outlined">logout</span>Sair</p>
+        </div>
+
+        <div class="resize-handle"></div>
+
+        <main class="resize-child" data-min="0.4">
+            <header>
+                <div class="input-container search">
+                    <input type="text" id="search" placeholder="Pesquisar projeto..."/>
+                    <span class="material-symbols-outlined search">search</span>
+                    <span class="material-symbols-outlined close" id="close-search">close</span>
+                </div>
+
+                <div class="profile">
+                    <img id="userpicture" alt="User picture" src="../assets/imgs/default_user_picture.jpg">
+                    <p id="username">Nome</p>
+                </div>
+            </header>
+
+            <section>
+                <p>Nenhum projeto foi criado ainda.</p>
+                <div>
+                    <h2>Projetos</h2>
+                    <ul id="projects-list">
+                        <li>
+                            <div class="icons">
+                                <span class="material-symbols-outlined info">info</span>
+                                <span class="material-symbols-outlined delete">delete</span>
+                            </div>
+                            <h3>Projeto 1</h3>
+                        </li>
+                        <li>
+                            <div class="icons">
+                                <span class="material-symbols-outlined info">info</span>
+                                <span class="material-symbols-outlined delete">delete</span>
+                            </div>
+                            <h3>Projeto 1</h3>
+                        </li>
+                        <li>
+                            <div class="icons">
+                                <span class="material-symbols-outlined info">info</span>
+                                <span class="material-symbols-outlined delete">delete</span>
+                            </div>
+                            <h3>Projeto 1</h3>
+                        </li>
+                        <li>
+                            <div class="icons">
+                                <span class="material-symbols-outlined info">info</span>
+                                <span class="material-symbols-outlined delete">delete</span>
+                            </div>
+                            <h3>Projeto 1</h3>
+                        </li>
+                        <li>
+                            <div class="icons">
+                                <span class="material-symbols-outlined info">info</span>
+                                <span class="material-symbols-outlined delete">delete</span>
+                            </div>
+                            <h3>Projeto 1</h3>
+                        </li>     <li>
+                            <div class="icons">
+                                <span class="material-symbols-outlined info">info</span>
+                                <span class="material-symbols-outlined delete">delete</span>
+                            </div>
+                            <h3>Projeto 1</h3>
+                        </li>     <li>
+                            <div class="icons">
+                                <span class="material-symbols-outlined info">info</span>
+                                <span class="material-symbols-outlined delete">delete</span>
+                            </div>
+                            <h3>Projeto 1</h3>
+                        </li>     <li>
+                            <div class="icons">
+                                <span class="material-symbols-outlined info">info</span>
+                                <span class="material-symbols-outlined delete">delete</span>
+                            </div>
+                            <h3>Projeto 1</h3>
+                        </li>     <li>
+                            <div class="icons">
+                                <span class="material-symbols-outlined info">info</span>
+                                <span class="material-symbols-outlined delete">delete</span>
+                            </div>
+                            <h3>Projeto 1</h3>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
 </body>
 </html>
