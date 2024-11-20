@@ -10,6 +10,10 @@
     margin: 8px 8px 16px 8px;
 }
 
+#create-project textarea {
+    resize: none;
+}
+
 #create-project input[type=submit] {
     margin-top: 16px;
 }

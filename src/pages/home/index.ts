@@ -4,6 +4,7 @@ import "../../components/dialog/script";
 import { Dialog } from "../../components/dialog/script";
 
 const createProjectDialog = Dialog.FromId("create-project");
+const noticeListDialog = Dialog.FromId("notice-list");
 const projectsUList = document.getElementById("projects-list") as HTMLUListElement;
 
 function ajustar() {
