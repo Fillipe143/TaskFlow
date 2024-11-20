@@ -1,7 +1,7 @@
 {
     const containers = document.getElementsByClassName("resizable-container");
 
-    const defaultMinSize = 0.2; // 20%
+    const defaultMinSize = 0.2; // 20% 
     let isResizing = false;
 
     for (const container of containers) {
@@ -19,27 +19,32 @@
             isResizing = true;
 
             const isVertical = container.classList.contains("vertical");
-            const firstMinSize = (isVertical ? container.offsetHeight : container.offsetWidth) *  Number(firstChild.getAttribute("data-min") || defaultMinSize);
-            const secondMinSize = (isVertical ? container.offsetHeight : container.offsetWidth) * Number(secondChild.getAttribute("data-min") || defaultMinSize);
+            const firstMinSize = (isVertical ? container.offsetHeight : container.offsetWidth) * (Number(firstChild.getAttribute("data-min") || defaultMinSize));
+            const secondMinSize = (isVertical ? container.offsetHeight : container.offsetWidth) * (Number(secondChild.getAttribute("data-min") || defaultMinSize));
 
             const startPosition = isVertical ? e.clientY : e.clientX;
             const firstChildStartSize = isVertical ? firstChild.offsetHeight : firstChild.offsetWidth;
             const secondChildStartSize = isVertical ? secondChild.offsetHeight : secondChild.offsetWidth;
 
+            const startPercentageFirstChild = (firstChildStartSize / (isVertical ? container.offsetHeight : container.offsetWidth)) * 100;
+            const startPercentageSecondChild = (secondChildStartSize / (isVertical ? container.offsetHeight : container.offsetWidth)) * 100;
+
             const mousemoveEvent = (e: MouseEvent) => {
                 if (!isResizing) return;
 
                 const dp = startPosition - (isVertical ? e.clientY : e.clientX);
-                let firstChildSize = firstChildStartSize - dp;
-                let secondChildSize = secondChildStartSize + dp;
+                const containerSize = isVertical ? container.offsetHeight : container.offsetWidth;
 
-                if (firstChildSize < firstMinSize) {
-                    secondChildSize -= firstMinSize - firstChildSize;
-                    firstChildSize = firstMinSize;
+                let firstChildSize = startPercentageFirstChild - ((dp / containerSize) * 100);
+                let secondChildSize = startPercentageSecondChild + ((dp / containerSize) * 100);
+
+                if (firstChildSize < (firstMinSize / containerSize) * 100) {
+                    secondChildSize -= (firstMinSize / containerSize) * 100 - firstChildSize;
+                    firstChildSize = (firstMinSize / containerSize) * 100;
                 }
-                if (secondChildSize < secondMinSize) {
-                    firstChildSize -= secondMinSize - secondChildSize;
-                    secondChildSize = secondMinSize;
+                if (secondChildSize < (secondMinSize / containerSize) * 100) {
+                    firstChildSize -= (secondMinSize / containerSize) * 100 - secondChildSize;
+                    secondChildSize = (secondMinSize / containerSize) * 100;
                 }
 
                 firstChildSize -= 1;
@@ -49,11 +54,11 @@
                 secondChild.style.flex = "none";
 
                 if (isVertical) {
-                    firstChild.style.height = `${firstChildSize}px`;
-                    secondChild.style.height = `${secondChildSize}px`;
+                    firstChild.style.height = `${firstChildSize}%`;
+                    secondChild.style.height = `${secondChildSize}%`;
                 } else {
-                    firstChild.style.width = `${firstChildSize}px`;
-                    secondChild.style.width = `${secondChildSize}px`;
+                    firstChild.style.width = `${firstChildSize}%`;
+                    secondChild.style.width = `${secondChildSize}%`;
                 }
             };
 
