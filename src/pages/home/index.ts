@@ -1,23 +1,65 @@
-//import "../../database/auth";
-import "../../components/resizable/script";
-import "../../components/dialog/script";
 import { Dialog } from "../../components/dialog/script";
+import "../../components/resizable/script";
+import "./scripts/updateSize";
+
+import * as auth from "../../database/auth";
+import * as userModel from "../../database/models/userModel";
+import * as projectModel from "../../database/models/projectModel";
 
 const createProjectDialog = Dialog.FromId("create-project");
 const noticeListDialog = Dialog.FromId("notice-list");
-const projectsUList = document.getElementById("projects-list") as HTMLUListElement;
+const loader = Dialog.FromId("loader");
 
-function ajustar() {
-    const width = projectsUList.offsetWidth;
-    console.log(width)
-    projectsUList.classList.remove("grid-6", "grid-5", "grid-4", "grid-3", "grid-2", "grid-1");
+auth.onUserLogged(async user => {
+    const currUser = await userModel.get(user.uid);
+    if (!currUser) {
+        auth.logout();
+        return;
+    }
 
-    if (width > 1500) projectsUList.classList.add('grid-6');
-    else if (width > 1250) projectsUList.classList.add('grid-5');
-    else if (width > 1000) projectsUList.classList.add('grid-4');
-    else if (width > 850) projectsUList.classList.add('grid-3');
-    else if (width > 600) projectsUList.classList.add('grid-2');
-    else projectsUList.classList.add('grid-1');
+    updateUserProfile(currUser);
+    document.getElementById("create")?.addEventListener("click", _ => showCreateProjectDialog());
+    document.getElementById("notification")?.addEventListener("click", _ => showNoticeListDialog());
+
+    loader.dismiss();
+});
+
+function updateUserProfile(user: userModel.User) {
+    const username = document.getElementById("username") as HTMLParagraphElement;
+    const userpicture = document.getElementById("userpicture") as HTMLImageElement;
+
+    username.innerText = user.name;
+    if (user.picture) userpicture.src = user.picture;
 }
 
-setInterval(ajustar, 100);
+function showCreateProjectDialog() {
+    createProjectDialog.show();
+
+    const form = createProjectDialog.container.querySelector("form") as HTMLFormElement;
+    const nameField = createProjectDialog.container.querySelector("#project-name") as HTMLInputElement;
+    const descriptionField = createProjectDialog.container.querySelector("#project-description") as HTMLTextAreaElement;
+    const submitButton = createProjectDialog.container.querySelector("input[type=submit]") as HTMLInputElement;
+
+    nameField.value = "";
+    descriptionField.value = "";
+    submitButton.disabled = true;
+
+    const onInput = () => { submitButton.disabled = nameField.value.trim().length < 3 };
+    const onSubmit = async (e: SubmitEvent)  => {
+        loader.show();
+        e.preventDefault();
+        nameField.removeEventListener("input", onInput);
+        form.removeEventListener("submit", onSubmit);
+
+        await projectModel.create(nameField.value, descriptionField.value);
+        createProjectDialog.dismiss();
+        loader.dismiss();
+    }
+
+    nameField.addEventListener("input", onInput);
+    form.addEventListener("submit", onSubmit);
+}
+
+function showNoticeListDialog() {
+    noticeListDialog.show();
+}

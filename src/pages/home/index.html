@@ -9,6 +9,12 @@
     <script type="module" src="/pages/home/index.js"></script>
 </head>
 <body>
+    <div class="dialog-container show" id="loader">
+        <svg class="circular-loader">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
+        </svg>
+    </div>
+
     <div class="dialog-container closable" data-opacity="0.5" id="create-project">
         <form>
             <h3>Novo Projeto</h3>
@@ -21,7 +27,7 @@
                 <label for="project-description">Descrição</label>
             </div>
             <div class="input-container">
-                <input type="submit" value="Criar" />
+                <input type="submit" value="Criar" disabled/>
             </div>
         </form>
     </div>

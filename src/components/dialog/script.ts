@@ -1,5 +1,5 @@
 export class Dialog {
-    private readonly container: HTMLElement;
+    public readonly container: HTMLElement;
 
     constructor(container: HTMLElement) {
         this.container = container;
@@ -8,6 +8,8 @@ export class Dialog {
 
     private setup() {
         if(this.container.classList.contains("closable")) {
+            const child = this.container.firstElementChild;
+            if (child) child.addEventListener("click", e => e.stopPropagation());
             this.container.addEventListener("click", _ => this.dismiss());
         }
 
