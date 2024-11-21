@@ -18,6 +18,8 @@ auth.onUserLogged(async user => {
     }
 
     updateUserProfile(currUser);
+    loadProjects();
+
     document.getElementById("create")?.addEventListener("click", _ => showCreateProjectDialog());
     document.getElementById("notification")?.addEventListener("click", _ => showNoticeListDialog());
 
@@ -30,6 +32,17 @@ function updateUserProfile(user: userModel.User) {
 
     username.innerText = user.name;
     if (user.picture) userpicture.src = user.picture;
+}
+
+async function loadProjects() {
+    const projects = await projectModel.getAll();
+    const projectsList = document.getElementById("projects-list") as HTMLUListElement;
+    projects.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+    projectsList.innerHTML = "";
+    for (const project of projects) {
+        projectsList.innerHTML += projectTemplate(project);
+    }
 }
 
 function showCreateProjectDialog() {
@@ -52,6 +65,7 @@ function showCreateProjectDialog() {
         form.removeEventListener("submit", onSubmit);
 
         await projectModel.create(nameField.value, descriptionField.value);
+        await loadProjects();
         createProjectDialog.dismiss();
         loader.dismiss();
     }
@@ -62,4 +76,14 @@ function showCreateProjectDialog() {
 
 function showNoticeListDialog() {
     noticeListDialog.show();
+}
+
+function projectTemplate(project: projectModel.Project): string {
+    return `<li>
+        <div class="icons">
+            <span class="material-symbols-outlined info">info</span>
+            <span class="material-symbols-outlined delete">delete</span>
+        </div>
+        <h3>${project.name}</h3>
+    </li>`;
 }
