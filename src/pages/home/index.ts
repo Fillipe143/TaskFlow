@@ -22,6 +22,7 @@ auth.onUserLogged(async user => {
 
     document.getElementById("create")?.addEventListener("click", _ => showCreateProjectDialog());
     document.getElementById("notification")?.addEventListener("click", _ => showNoticeListDialog());
+    document.getElementById("exit")?.addEventListener("click", _ => auth.logout());
 
     loader.dismiss();
 });
