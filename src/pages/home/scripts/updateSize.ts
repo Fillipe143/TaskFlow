@@ -13,3 +13,5 @@ function udpateProjectsListSize() {
 }
 
 setInterval(udpateProjectsListSize, 100);
+
+export{};

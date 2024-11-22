@@ -7,6 +7,25 @@
 
     <link rel="stylesheet" href="/pages/home/style.css"/>
     <script type="module" src="/pages/home/index.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="module" src="../../components/observer.js"></script>
+    <script type="module" src="../../components/resizable/SidebarResizeObservable.js"></script>
+    <script type="module" src="../../sidebar.js"></script>
+    <script>
+        const sidebarElement = document.getElementById("sidebar");
+
+        if (sidebarElement) {
+            const sidebarResizeObservable = new SidebarResizeObservable(sidebarElement);
+
+            sidebarResizeObservable.addObserver((data) => { 
+                console.log("Nova dimensão da sidebar:", data);
+            });
+
+            setTimeout(() => {
+                sidebarElement.style.width = "400px";
+            }, 2000);
+        }
+    </script>
 </head>
 <body>
     <div class="dialog-container show" id="loader">
@@ -121,7 +140,7 @@
     </div>
 
     <div class="resizable-container">
-        <div class="resize-child sidebar" data-min="0.2">
+        <div class="resize-child sidebar" id="sidebar" data-min="0.2">
             <h1>Task<span>Flow</span></h1>
 
             <p class="option" id="create"><span class="material-symbols-outlined">add</span>Adicionar</p>

@@ -1,5 +1,5 @@
 import $ from "jquery";
-import { SidebarResizeObservable } from './src/components/SidebarResizeObservable';
+import { SidebarResizeObservable } from './components/resizable/SidebarResizeObservable';;
 
 let isResizing = false;
 const minWidth = 200;
