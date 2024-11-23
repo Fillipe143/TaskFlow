@@ -1,5 +1,4 @@
 import { Dialog } from "../../components/dialog/script";
-import "../../components/resizable/script";
 import "./scripts/updateSize";
 
 import * as auth from "../../database/auth";
@@ -24,7 +23,7 @@ auth.onUserLogged(async user => {
     document.getElementById("notification")?.addEventListener("click", _ => showNoticeListDialog());
     document.getElementById("exit")?.addEventListener("click", _ => auth.logout());
 
-    loader.dismiss();
+  loader.dismiss();
 });
 
 function updateUserProfile(user: userModel.User) {
