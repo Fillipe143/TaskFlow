@@ -15,6 +15,7 @@ export class Resizable {
     }
 
     private setup() {
+        window.addEventListener("resize", () => this.notify());
         for (let i = 0; i < this.handlers.length; i++) {
             this.resize(this.handlers[0], this.childs[i], this.childs[i + 1]);
         }
