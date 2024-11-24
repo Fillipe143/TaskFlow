@@ -6,6 +6,7 @@ header {
 header .profile {
     text-align: center;
     margin: 32px;
+    cursor: pointer;
 }
 
 header .profile img {

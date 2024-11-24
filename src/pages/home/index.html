@@ -46,76 +46,6 @@
                     <span class="material-symbols-outlined" id="confirm">check</span>
                     <span class="material-symbols-outlined" id="cancel">close</span>
                 </li>
-                <li>
-                    <img src="../assets/imgs/default_user_picture.jpg">
-                    <div>
-                        <h4>Nome projeto</h4>
-                        <p>Usuário convidou você para um projeto</p>
-                    </div>
-
-                    <span class="material-symbols-outlined" id="confirm">check</span>
-                    <span class="material-symbols-outlined" id="cancel">close</span>
-                </li>
-                <li>
-                    <img src="../assets/imgs/default_user_picture.jpg">
-                    <div>
-                        <h4>Nome projeto</h4>
-                        <p>Usuário convidou você para um projeto</p>
-                    </div>
-
-                    <span class="material-symbols-outlined" id="confirm">check</span>
-                    <span class="material-symbols-outlined" id="cancel">close</span>
-                </li>
-                <li>
-                    <img src="../assets/imgs/default_user_picture.jpg">
-                    <div>
-                        <h4>Nome projeto</h4>
-                        <p>Usuário convidou você para um projeto</p>
-                    </div>
-
-                    <span class="material-symbols-outlined" id="confirm">check</span>
-                    <span class="material-symbols-outlined" id="cancel">close</span>
-                </li>
-                <li>
-                    <img src="../assets/imgs/default_user_picture.jpg">
-                    <div>
-                        <h4>Nome projeto</h4>
-                        <p>Usuário convidou você para um projeto</p>
-                    </div>
-
-                    <span class="material-symbols-outlined" id="confirm">check</span>
-                    <span class="material-symbols-outlined" id="cancel">close</span>
-                </li>
-                <li>
-                    <img src="../assets/imgs/default_user_picture.jpg">
-                    <div>
-                        <h4>Nome projeto</h4>
-                        <p>Usuário convidou você para um projeto</p>
-                    </div>
-
-                    <span class="material-symbols-outlined" id="confirm">check</span>
-                    <span class="material-symbols-outlined" id="cancel">close</span>
-                </li>
-                <li>
-                    <img src="../assets/imgs/default_user_picture.jpg">
-                    <div>
-                        <h4>Nome projeto</h4>
-                        <p>Usuário convidou você para um projeto</p>
-                    </div>
-
-                    <span class="material-symbols-outlined" id="confirm">check</span>
-                    <span class="material-symbols-outlined" id="cancel">close</span>
-                </li>
-                <li>
-                    <img src="../assets/imgs/default_user_picture.jpg">
-                    <div>
-                        <h4>Nome projeto</h4>
-                        <p>Usuário convidou você para um projeto</p>
-                    </div>
-
-                    <span class="material-symbols-outlined" id="confirm">check</span>
-                    <span class="material-symbols-outlined" id="cancel">close</span>
-                </li>
             </ul>
         </div>
     </div>
@@ -134,6 +64,37 @@
             <h4>Você deseja deletar o projeto? Isso não pode ser desfeito!</h4>
             <input type="submit" class="negative" value="Deletar">
         </div>
+    </div>
+
+    <div class="dialog-container closable" id="dialog-profile">
+        <form class="dialog">
+            <h2>Meu perfil</h2> <hr>
+            <div class="profile-container"> <br>
+                <div class="personal">
+                    <img class="pfp" alt="User Photo" src="../../assets/imgs/default_user_picture.jpg">
+                    <div class="input-container">
+                        <input type="text" placeholder="" id="name">
+                        <label for="name"><span class="material-symbols-outlined">person</span>Nome</label>
+                    </div>
+                    
+                </div> <br>
+                <input type="submit" id="confirmar" value="Salvar mundaças">
+                <h2>Segurança da conta</h2> <hr>
+                <div class="security">
+                    <h3>Email</h3>
+                    <p>emailExample@email.com</p>
+                
+                    <h3>Senha</h3>
+                    <p>Redefina uma nova senha para acessar sua conta TaskFlow</p>
+                    <input type="submit" id="redifinir-senha" value="Redefinir senha">
+                </div>
+                <h2>Suporte</h2> <hr>
+                <div class="support">
+                    <h3>Excluir minha conta</h3>
+                    <p>Exclua permanentemente sua conta TaskFlow</p>
+                </div>
+            </div>
+        </form>
     </div>
 
     <div class="resizable-container" id="resizable">
@@ -163,7 +124,7 @@
                 </div>
             </header>
 
-            <section>
+            <section id="projects-section">
                 <p>Nenhum projeto foi criado ainda.</p>
                 <div>
                     <h2>Projetos</h2>

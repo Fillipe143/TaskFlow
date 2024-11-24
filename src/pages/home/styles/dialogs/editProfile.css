@@ -1,0 +1,66 @@
+#dialog-profile .dialog {
+    background-color: white;
+    width: 70%;
+    height: 76%;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+#dialog-profile .dialog input {
+    width: 25%;
+    padding: 5px;
+    font-size: 14px;
+    margin: 0;
+}
+
+.personal {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.security button {
+    margin-top: 5px;
+    width: 100px;
+    height: 30px;
+    background-color: white;
+    border-width: 1.5px;
+}
+
+.security button:hover {
+    background-color: rgb(227, 227, 227);
+    cursor: pointer;
+}
+
+.support h3 {
+    color: red;
+    cursor: pointer;
+}
+
+.pfp {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-right: 16px;
+}
+
+.dialog .input-container, .dialog input[type=submit] {
+    width: 100%;
+    margin-top: 16px;
+}
+
+#dialog-profile .dialog h2 {
+    margin: 10px 0;
+}
+
+#dialog-profile .dialog h3 {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.dialog .fill {
+    flex-grow: 1;
+}
+

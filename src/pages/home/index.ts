@@ -9,7 +9,11 @@ const createProjectDialog = Dialog.FromId("create-project");
 const noticeListDialog = Dialog.FromId("notice-list");
 const projectInfoDialog = Dialog.FromId("project-info");
 const deleteProjectDialog = Dialog.FromId("delete-project");
+const editProfileDialog = Dialog.FromId("dialog-profile");
 const loader = Dialog.FromId("loader");
+
+let visibleProjects: Array<projectModel.Project>= [];
+let allProjects: Array<projectModel.Project> = [];
 
 auth.onUserLogged(async user => {
     const currUser = await userModel.get(user.uid);
@@ -21,9 +25,19 @@ auth.onUserLogged(async user => {
     updateUserProfile(currUser);
     loadProjects();
 
+    document.getElementsByClassName("profile")[0].addEventListener("click", _ => showEditProfileDialog(currUser));
     document.getElementById("create")?.addEventListener("click", _ => showCreateProjectDialog());
     document.getElementById("notification")?.addEventListener("click", _ => showNoticeListDialog());
     document.getElementById("exit")?.addEventListener("click", _ => auth.logout());
+    
+    const searchInput = document.getElementById("search") as HTMLInputElement;;
+    const closeSearchButton = document.getElementById("close-search") as HTMLSpanElement;
+
+    searchInput.addEventListener("input", () => filterProjects((searchInput.value.trim() || "")));
+    closeSearchButton.addEventListener("click", () => {
+        searchInput.value = "";
+        filterProjects("");
+    });
 
     loader.dismiss();
 });
@@ -37,14 +51,28 @@ function updateUserProfile(user: userModel.User) {
 }
 
 async function loadProjects() {
-    const projects = await projectModel.getAll();
+    allProjects = await projectModel.getAll();
+    visibleProjects = allProjects;
+    updateProjectList();
+}
+
+async function updateProjectList() {
+    const projectSection = document.getElementById("projects-section") as HTMLSelectElement;
     const projectsList = document.getElementById("projects-list") as HTMLUListElement;
-    projects.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    visibleProjects.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+     if (visibleProjects.length === 0) projectSection.classList.add("noprojects");
+     else projectSection.classList.remove("noprojects");
 
     projectsList.innerHTML = "";
-    for (const project of projects) {
+    for (const project of visibleProjects) {
         projectsList.appendChild(projectTemplate(project));
     }
+}
+
+
+function showEditProfileDialog(user: userModel.User) {
+    editProfileDialog.show();
 }
 
 function showCreateProjectDialog() {
@@ -132,4 +160,9 @@ function projectTemplate(project: projectModel.Project): HTMLElement {
     element.onclick = () => openProject(project.id);
 
     return element;
+}
+
+function filterProjects(name: string) {
+    visibleProjects = allProjects.filter(project => project.name.toLowerCase().startsWith(name.toLowerCase()));
+    updateProjectList();
 }
