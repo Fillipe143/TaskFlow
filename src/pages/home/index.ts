@@ -41,7 +41,7 @@ async function loadProjects() {
 
     projectsList.innerHTML = "";
     for (const project of projects) {
-        projectsList.innerHTML += projectTemplate(project);
+        projectsList.appendChild(projectTemplate(project));
     }
 }
 
@@ -78,12 +78,42 @@ function showNoticeListDialog() {
     noticeListDialog.show();
 }
 
-function projectTemplate(project: projectModel.Project): string {
-    return `<li>
+function openProject(id: string) {
+    window.location.href = `/project?id=${id}`;
+}
+
+function showProjectInfo(project: projectModel.Project) {
+    console.log("Info", project);
+}
+
+function deleteProject(project: projectModel.Project) {
+    console.log("Delete", project);
+}
+
+function projectTemplate(project: projectModel.Project): HTMLElement {
+    const html = `<li>
         <div class="icons">
             <span class="material-symbols-outlined info">info</span>
             <span class="material-symbols-outlined delete">delete</span>
         </div>
         <h3>${project.name}</h3>
     </li>`;
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+
+    const element = doc.body.firstChild as HTMLElement;
+    (element.getElementsByClassName("info")[0] as HTMLElement).onclick = (e) => {
+        e.stopPropagation();
+        showProjectInfo(project);
+    };
+
+    (element.getElementsByClassName("delete")[0] as HTMLElement).onclick = (e) => {
+        e.stopPropagation();
+        deleteProject(project);
+    };
+
+    element.onclick = () => openProject(project.id);
+
+    return element;
 }
