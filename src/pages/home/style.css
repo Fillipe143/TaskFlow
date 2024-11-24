@@ -13,6 +13,7 @@
 @import "./styles/dialogs/createProjects.css";
 @import "./styles/dialogs/noticeList.css";
 @import "./styles/dialogs/projectInfo.css";
+@import "./styles/dialogs/deleteProject.css";
 
 
 #loader {

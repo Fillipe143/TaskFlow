@@ -8,6 +8,7 @@ import * as projectModel from "../../database/models/projectModel";
 const createProjectDialog = Dialog.FromId("create-project");
 const noticeListDialog = Dialog.FromId("notice-list");
 const projectInfoDialog = Dialog.FromId("project-info");
+const deleteProjectDialog = Dialog.FromId("delete-project");
 const loader = Dialog.FromId("loader");
 
 auth.onUserLogged(async user => {
@@ -24,7 +25,7 @@ auth.onUserLogged(async user => {
     document.getElementById("notification")?.addEventListener("click", _ => showNoticeListDialog());
     document.getElementById("exit")?.addEventListener("click", _ => auth.logout());
 
-  loader.dismiss();
+    loader.dismiss();
 });
 
 function updateUserProfile(user: userModel.User) {
@@ -90,8 +91,19 @@ function showProjectInfo(project: projectModel.Project) {
     projectInfoDialog.container.getElementsByTagName("p")[0].innerText = project.description;
 }
 
-function deleteProject(project: projectModel.Project) {
-    console.log("Delete", project);
+function deleteProject(id: string) {
+    deleteProjectDialog.show();
+
+    deleteProjectDialog.container.getElementsByTagName("input")[0].onclick = () => {
+        loader.show();
+        deleteProjectDialog.dismiss();
+
+        projectModel.remove(id)
+        .then(async _ => {
+            await loadProjects();
+            loader.dismiss();
+        });
+    };
 }
 
 function projectTemplate(project: projectModel.Project): HTMLElement {
@@ -114,7 +126,7 @@ function projectTemplate(project: projectModel.Project): HTMLElement {
 
     (element.getElementsByClassName("delete")[0] as HTMLElement).onclick = (e) => {
         e.stopPropagation();
-        deleteProject(project);
+        deleteProject(project.id);
     };
 
     element.onclick = () => openProject(project.id);

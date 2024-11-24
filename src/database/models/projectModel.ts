@@ -1,4 +1,4 @@
-import { collection, doc, DocumentData, DocumentReference, getDoc, getDocs, MemoryEagerGarbageCollector, query, setDoc, Timestamp, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, DocumentData, DocumentReference, getDoc, getDocs, MemoryEagerGarbageCollector, query, setDoc, Timestamp, where } from "firebase/firestore";
 
 import * as auth from "../auth";
 import { db } from "../firestore";
@@ -55,6 +55,13 @@ export async function create(name: string, description: string): Promise<boolean
         const projectDoc = { id: uniqueID(), name, description, crew, crewIds: [user.uid], createdAt: Timestamp.now(), content: "" };
         await setDoc(getRef(projectDoc.id), projectDoc);
 
+        return true;
+    } catch (_) { return false; }
+}
+
+export async function remove(id: string): Promise<boolean> {
+    try {
+        await deleteDoc(getRef(id));
         return true;
     } catch (_) { return false; }
 }
