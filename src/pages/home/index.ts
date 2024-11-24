@@ -7,6 +7,7 @@ import * as projectModel from "../../database/models/projectModel";
 
 const createProjectDialog = Dialog.FromId("create-project");
 const noticeListDialog = Dialog.FromId("notice-list");
+const projectInfoDialog = Dialog.FromId("project-info");
 const loader = Dialog.FromId("loader");
 
 auth.onUserLogged(async user => {
@@ -83,7 +84,10 @@ function openProject(id: string) {
 }
 
 function showProjectInfo(project: projectModel.Project) {
-    console.log("Info", project);
+    projectInfoDialog.show();
+    projectInfoDialog.container.getElementsByTagName("h3")[0].innerText = project.name;
+    projectInfoDialog.container.getElementsByTagName("h4")[0].innerText = project.createdAt.toLocaleDateString();
+    projectInfoDialog.container.getElementsByTagName("p")[0].innerText = project.description;
 }
 
 function deleteProject(project: projectModel.Project) {
