@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sidebarObserver = new SidebarResizeObservable(sidebarElement);
 
-    // Adicione observadores para tratar as mudanças
     sidebarObserver.addObserver((dimensions: DOMRectReadOnly) => {
         console.log('Sidebar alterada:', dimensions);
         handleSidebarResize(dimensions);
@@ -24,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleSidebarResize(dimensions: DOMRectReadOnly): void {
         const { width, height } = dimensions;
         console.log(`Largura: ${width}px, Altura: ${height}px`);
-        // Aqui você pode adicionar lógica adicional, como atualizar o número de colunas ou layout
     }
 });
 
