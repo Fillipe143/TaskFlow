@@ -9,7 +9,39 @@
     <script type="module" src="/pages/project/index.js"></script>
 </head>
 <body>
-        <textarea></textarea> 
-        <div id="md-container"></div>
+    <div class="dialog-container" data-opacity="0.5" id="edit-crew">
+        <div>
+            <h3>Colaboradores</h3>
+            <div class="input-container">
+                <input type="email" placeholder="" id="email">
+                <label for="email"><span class="material-symbols-outlined">mail</span>Email</label>
+                <input type="submit" value="+" id="add">
+            </div>
+            <ul>
+                <li>
+                    <img src="../../assets/imgs/default_user_picture.jpg">
+                    <div>
+                        <h4 id="user-name">Nome</h4>
+                        <p id="user-email">Email</p>
+                    </div>
+                    <select>
+                        <option>Observador</option>
+                        <option>Editor</option>
+                        <option>Administrador</option>
+                        <option>Dono</option>
+                    </select>
+                    <span class="material-symbols-outlined" id="delete">delete</span>
+                </li>
+            </ul>
+
+            <div class="input-container">
+                <input type="submit" value="Confirmar" id="confirm">
+            </div>
+
+        </div>
+    </div>
+
+    <textarea></textarea> 
+    <div id="md-container"></div>
 </body>
 </html>

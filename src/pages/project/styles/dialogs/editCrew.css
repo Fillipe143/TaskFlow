@@ -1,0 +1,63 @@
+#edit-crew > div {
+    background-color: var(--background-color);
+    width: 45%;
+    padding: 32px;
+    border-radius: 8px;
+}
+
+#edit-crew #add {
+    width: 45px;
+    margin-left: 8px;
+}
+
+#edit-crew h3 {
+    font-size: x-large;
+    margin: 8px 8px 16px 8px;
+}
+
+#edit-crew ul {
+    margin: 16px 8px 16px 8px;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+#edit-crew li {
+    list-style: none;
+
+    display: flex;
+    align-items: center;
+    padding: 8px;
+
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin: 8px 0 8px 0;
+}
+
+#edit-crew li select {
+    outline: none;
+    border-radius: 4px;
+}
+
+#edit-crew img {
+    width: 45px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+#edit-crew li > div {
+    flex-grow: 1;
+}
+
+#edit-crew li h4 {
+    font-size: large;
+}
+
+#edit-crew li span {
+    color: var(--icon-color);
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+#edit-crew li span:hover {
+    color: var(--negative-color);
+}
