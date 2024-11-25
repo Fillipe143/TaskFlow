@@ -23,7 +23,7 @@ auth.onUserLogged(async user => {
     }
 
     updateUserProfile(currUser);
-    loadProjects();
+    await loadProjects();
 
     document.getElementsByClassName("profile")[0].addEventListener("click", _ => showEditProfileDialog(currUser));
     document.getElementById("create")?.addEventListener("click", _ => showCreateProjectDialog());
@@ -70,9 +70,54 @@ async function updateProjectList() {
     }
 }
 
-
 function showEditProfileDialog(user: userModel.User) {
     editProfileDialog.show();
+    const container = editProfileDialog.container;
+    const nameInput = container.querySelector("#name") as HTMLInputElement;
+    const saveButton = container.querySelector("#confirmar") as HTMLInputElement;
+    const resetPassButton = container.querySelector("#redefinir-senha") as HTMLInputElement;
+    const deleteAccountButton = container.querySelector("#delete-account") as HTMLInputElement;
+
+    if (user.picture) container.getElementsByTagName("img")[0].src = user.picture;
+    (container.querySelector("#email") as HTMLParagraphElement).innerHTML = user.email;
+    nameInput.value = user.name;
+
+    nameInput.addEventListener("input", () => {
+        saveButton.disabled = nameInput.value.trim().length === 0 || nameInput.value.trim() === user.name;
+    });
+    nameInput.dispatchEvent(new Event("input"));
+
+    saveButton.onclick = (e) => {
+        e.preventDefault();
+
+        loader.show();
+        editProfileDialog.dismiss();
+
+        userModel.update(nameInput.value.trim())
+        .then(status => {
+            if (status) {
+                user.name = nameInput.value.trim();
+                updateUserProfile(user)
+            }
+            loader.dismiss()
+    });
+    };
+
+    resetPassButton.onclick = (e) => {
+        e.preventDefault();
+
+        loader.show();
+        editProfileDialog.dismiss();
+
+        auth.resetPassword("lihoja8050@nozamas.com")
+        .then(status => {
+            loader.dismiss();
+            if (status) window.alert("Email de redefinição de senha enviado!");
+            else window.alert("Erro a o enviar email de redefinição de senha!");
+        });
+    };
+
+    deleteAccountButton.onclick = () => {};
 }
 
 function showCreateProjectDialog() {

@@ -6,7 +6,7 @@ main {
 section {
     position: relative;
     flex-grow: 1;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 section.noprojects p {
