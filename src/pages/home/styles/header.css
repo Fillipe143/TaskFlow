@@ -11,7 +11,9 @@ header .profile {
 
 header .profile img {
     width: 45px;
+    height: 45px;
     border-radius: 50px;
+    border: 1px solid var(--border-color);
 }
 
 header .input-container {

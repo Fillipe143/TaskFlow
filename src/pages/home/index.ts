@@ -23,7 +23,8 @@ auth.onUserLogged(async user => {
     }
 
     updateUserProfile(currUser);
-    await loadProjects();
+    showEditProfileDialog(currUser);
+    //await loadProjects();
 
     document.getElementsByClassName("profile")[0].addEventListener("click", _ => showEditProfileDialog(currUser));
     document.getElementById("create")?.addEventListener("click", _ => showCreateProjectDialog());
@@ -78,12 +79,35 @@ function showEditProfileDialog(user: userModel.User) {
     const resetPassButton = container.querySelector("#redefinir-senha") as HTMLInputElement;
     const deleteAccountButton = container.querySelector("#delete-account") as HTMLInputElement;
 
-    if (user.picture) container.getElementsByTagName("img")[0].src = user.picture;
+    const pictureImg = container.getElementsByTagName("img")[0] as HTMLImageElement;
+    const fileInput = container.querySelector("#picture-input") as HTMLInputElement;
+
+    if (user.picture) pictureImg.src = user.picture;
     (container.querySelector("#email") as HTMLParagraphElement).innerHTML = user.email;
     nameInput.value = user.name;
 
+    pictureImg.onclick = () => fileInput.click();
+
+    fileInput.addEventListener("change",  e => {
+        const target = e.target as HTMLInputElement;
+        const file  = target.files ? target.files[0] : null;
+
+        if (file && file.type.startsWith("image/")) {
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                if (!e.target)  return;
+                pictureImg.src = e.target.result as string;
+                saveButton.disabled = nameInput.value.trim().length === 0 || (nameInput.value.trim() === user.name && pictureImg.src === user.picture);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+
     nameInput.addEventListener("input", () => {
-        saveButton.disabled = nameInput.value.trim().length === 0 || nameInput.value.trim() === user.name;
+        saveButton.disabled = nameInput.value.trim().length === 0 || (nameInput.value.trim() === user.name && pictureImg.src === user.picture);
+
     });
     nameInput.dispatchEvent(new Event("input"));
 
@@ -93,10 +117,11 @@ function showEditProfileDialog(user: userModel.User) {
         loader.show();
         editProfileDialog.dismiss();
 
-        userModel.update(nameInput.value.trim())
+        userModel.update(nameInput.value.trim(), pictureImg.src)
         .then(status => {
             if (status) {
                 user.name = nameInput.value.trim();
+                user.picture = pictureImg.src;
                 updateUserProfile(user)
             }
             loader.dismiss()
