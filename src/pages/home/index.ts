@@ -23,7 +23,8 @@ auth.onUserLogged(async user => {
     }
 
     updateUserProfile(currUser);
-    await loadProjects();
+    showEditProfileDialog(currUser);
+    //await loadProjects();
 
     document.getElementsByClassName("profile")[0].addEventListener("click", _ => showEditProfileDialog(currUser));
     document.getElementById("create")?.addEventListener("click", _ => showCreateProjectDialog());
