@@ -50,3 +50,7 @@ export async function resetPassword(email: string): Promise<boolean> {
 export async function logout() {
     await fbAuth.signOut();
 }
+
+export async function deleteAccount() {
+    await fbAuth.currentUser?.delete();
+}

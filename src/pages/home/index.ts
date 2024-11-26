@@ -141,7 +141,10 @@ function showEditProfileDialog(user: userModel.User) {
         });
     };
 
-    deleteAccountButton.onclick = () => {};
+    deleteAccountButton.onclick = async () => {
+        const status = window.confirm("Tem certeza que deseja excluir a conta? Isso não pode ser desfeito!")
+        if (status) await auth.deleteAccount();
+    };
 }
 
 function showCreateProjectDialog() {
