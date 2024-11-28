@@ -1,39 +1,65 @@
-{
-    const containers = document.getElementsByClassName("resizable-container");
+export class Resizable {
+    public readonly container: HTMLElement;
+    public readonly childs: NodeListOf<HTMLElement>;
+    public readonly handlers: NodeListOf<HTMLElement>;
+    private resizeListeners: Array<() => void> = [];
 
-    const defaultMinSize = 0.2; // 20% 
-    let isResizing = false;
+    private isResizing: boolean = false;
+    private readonly defaultMinSize: number = 0.2;
 
-    for (const container of containers) {
-        const childs = container.querySelectorAll(":scope > .resize-child") as NodeListOf<HTMLElement>;
-        const handlers = container.querySelectorAll(":scope > .resize-handle") as NodeListOf<HTMLElement>;
+    constructor(container: HTMLElement, childs: NodeListOf<HTMLElement>, handlers: NodeListOf<HTMLElement>) {
+        this.container = container;
+        this.childs = childs;
+        this.handlers = handlers;
+        this.setup();
+    }
 
-        for (let i = 0; i < handlers.length; i++) {
-            resize(container as HTMLElement, handlers[i], childs[i], childs[i + 1], childs.length);
+    private setup() {
+        window.addEventListener("resize", () => this.notify());
+        for (let i = 0; i < this.handlers.length; i++) {
+            this.resize(this.handlers[0], this.childs[i], this.childs[i + 1]);
         }
     }
 
-    function resize(container: HTMLElement, handler: HTMLElement, firstChild: HTMLElement, secondChild: HTMLElement, childrensCount: number) {
+    public static FromId(id: string): Resizable {
+        const container = document.querySelector(`#${id}.resizable-container`);
+        if (!container) throw `Nenhim resizable com o id ${id} foi encontrado!`;
+
+        const childs = container.querySelectorAll(":scope > .resize-child") as NodeListOf<HTMLElement>;
+        const handlers = container.querySelectorAll(":scope > .resize-handle") as NodeListOf<HTMLElement>;
+        return new Resizable(container as HTMLElement, childs, handlers);
+    }
+
+    public addResizeListener(listener: () => void) {
+        this.resizeListeners.push(listener);
+        listener();
+    }
+
+    private notify() {
+        this.resizeListeners.forEach(listener => listener());
+    }
+
+    private resize(handler: HTMLElement, firstChild: HTMLElement, secondChild: HTMLElement) {
         handler.addEventListener("mousedown", e => {
             e.preventDefault();
-            isResizing = true;
+            this.isResizing = true;
 
-            const isVertical = container.classList.contains("vertical");
-            const firstMinSize = (isVertical ? container.offsetHeight : container.offsetWidth) * (Number(firstChild.getAttribute("data-min") || defaultMinSize));
-            const secondMinSize = (isVertical ? container.offsetHeight : container.offsetWidth) * (Number(secondChild.getAttribute("data-min") || defaultMinSize));
+            const isVertical = this.container.classList.contains("vertical");
+            const firstMinSize = (isVertical ? this.container.offsetHeight : this.container.offsetWidth) * (Number(firstChild.getAttribute("data-min") || this.defaultMinSize));
+            const secondMinSize = (isVertical ? this.container.offsetHeight : this.container.offsetWidth) * (Number(secondChild.getAttribute("data-min") || this.defaultMinSize));
 
             const startPosition = isVertical ? e.clientY : e.clientX;
             const firstChildStartSize = isVertical ? firstChild.offsetHeight : firstChild.offsetWidth;
             const secondChildStartSize = isVertical ? secondChild.offsetHeight : secondChild.offsetWidth;
 
-            const startPercentageFirstChild = (firstChildStartSize / (isVertical ? container.offsetHeight : container.offsetWidth)) * 100;
-            const startPercentageSecondChild = (secondChildStartSize / (isVertical ? container.offsetHeight : container.offsetWidth)) * 100;
+            const startPercentageFirstChild = (firstChildStartSize / (isVertical ? this.container.offsetHeight : this.container.offsetWidth)) * 100;
+            const startPercentageSecondChild = (secondChildStartSize / (isVertical ? this.container.offsetHeight : this.container.offsetWidth)) * 100;
 
             const mousemoveEvent = (e: MouseEvent) => {
-                if (!isResizing) return;
+                if (!this.isResizing) return;
 
                 const dp = startPosition - (isVertical ? e.clientY : e.clientX);
-                const containerSize = isVertical ? container.offsetHeight : container.offsetWidth;
+                const containerSize = isVertical ? this.container.offsetHeight : this.container.offsetWidth;
 
                 let firstChildSize = startPercentageFirstChild - ((dp / containerSize) * 100);
                 let secondChildSize = startPercentageSecondChild + ((dp / containerSize) * 100);
@@ -60,10 +86,12 @@
                     firstChild.style.width = `${firstChildSize}%`;
                     secondChild.style.width = `${secondChildSize}%`;
                 }
+
+                this.notify();
             };
 
             const mouseupEvent = () => {
-                isResizing = false;
+                this.isResizing = false;
                 document.removeEventListener("mousemove", mousemoveEvent);
                 document.removeEventListener("mouseup", mouseupEvent);
             };

@@ -1,6 +1,9 @@
+import { Resizable } from "../../../components/resizable/script";
+
+const resizable = Resizable.FromId("resizable");
 const projectsUList = document.getElementById("projects-list") as HTMLUListElement;
 
-function udpateProjectsListSize() {
+resizable.addResizeListener(() => {
     const width = projectsUList.offsetWidth;
     projectsUList.classList.remove("grid-6", "grid-5", "grid-4", "grid-3", "grid-2", "grid-1");
 

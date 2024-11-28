@@ -1,4 +1,4 @@
-import { getAuth, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
+import { getAuth, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, UserCredential, sendPasswordResetEmail } from "firebase/auth";
 
 import { app } from "./firebase";
 import * as userModel from "./models/userModel";
@@ -40,6 +40,17 @@ export async function registerWithEmail(name: string, email: string, password: s
     return null;
 }
 
+export async function resetPassword(email: string): Promise<boolean> {
+    try {
+        await sendPasswordResetEmail(fbAuth, email);
+        return true;
+    } catch (_) { return false; }
+}
+
 export async function logout() {
     await fbAuth.signOut();
+}
+
+export async function deleteAccount() {
+    await fbAuth.currentUser?.delete();
 }

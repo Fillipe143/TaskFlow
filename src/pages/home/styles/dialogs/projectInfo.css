@@ -1,0 +1,19 @@
+#project-info > div {
+    background-color: var(--background-color);
+    width: 45%;
+    padding: 32px;
+    border-radius: 8px;
+}
+
+#project-info h3 {
+    font-size: x-large;
+    margin: 8px 8px 0px 8px;
+}
+
+#project-info h4 {
+    margin: 8px 8px 16px 8px;
+}
+
+#project-info p {
+    margin: 8px 8px 16px 8px;
+}
