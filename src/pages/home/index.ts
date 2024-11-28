@@ -4,6 +4,7 @@ import "./scripts/updateSize";
 import * as auth from "../../database/auth";
 import * as userModel from "../../database/models/userModel";
 import * as projectModel from "../../database/models/projectModel";
+import { Project, MemberRole } from "../../database/models/projectModel";
 
 const createProjectDialog = Dialog.FromId("create-project");
 const noticeListDialog = Dialog.FromId("notice-list");
@@ -147,6 +148,20 @@ function showEditProfileDialog(user: userModel.User) {
     };
 }
 
+export function createProjectFactory(name: string, description: string, userId: string): Project {
+    const crew = { [userId]: MemberRole.OWNER };
+    const project: Project = {
+        id: '',
+        name,
+        description,
+        content: "",
+        crew,
+        createdAt: new Date()
+    };
+
+    return project;
+}
+
 function showCreateProjectDialog() {
     createProjectDialog.show();
 
@@ -166,7 +181,16 @@ function showCreateProjectDialog() {
         nameField.removeEventListener("input", onInput);
         form.removeEventListener("submit", onSubmit);
 
-        await projectModel.create(nameField.value, descriptionField.value);
+        const user = auth.getCurrentUser();
+        if (!user) {
+            loader.dismiss();
+            return;
+        }
+
+        const newProject = createProjectFactory(nameField.value, descriptionField.value, user.uid);
+
+        await projectModel.create(newProject);
+
         await loadProjects();
         createProjectDialog.dismiss();
         loader.dismiss();

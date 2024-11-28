@@ -13,8 +13,6 @@ resizable.addResizeListener(() => {
     else if (width > 600) projectsUList.classList.add('grid-3');
     else if (width > 400) projectsUList.classList.add('grid-2');
     else projectsUList.classList.add('grid-1');
-}
-
-setInterval(udpateProjectsListSize, 100);
+});
 
 export{};

@@ -61,13 +61,21 @@ export async function getAll(): Promise<Array<Project>> {
     } catch (_) { return [] };
 }
 
-export async function create(name: string, description: string): Promise<boolean> {
+export async function create(project: Project): Promise<boolean> {
     try {
         const user = auth.getCurrentUser();
         if (!user) return false;
 
-        const crew = { [user.uid]: MemberRole.OWNER };
-        const projectDoc = { id: uniqueID(), name, description, crew, crewIds: [user.uid], createdAt: Timestamp.now(), content: "" };
+        const projectDoc = {
+            id: uniqueID(),
+            name: project.name,
+            description: project.description,
+            crew: project.crew,
+            crewIds: [user.uid],
+            createdAt: Timestamp.now(),
+            content: ""
+        };
+
         await setDoc(getRef(projectDoc.id), projectDoc);
 
         return true;
