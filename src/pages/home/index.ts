@@ -42,6 +42,16 @@ auth.onUserLogged(async user => {
     loader.dismiss();
 });
 
+{
+    const container = document.getElementById("resizable");
+
+    document.getElementsByClassName("darkner-region")[0]
+        .addEventListener("click", () => container?.classList.remove("opened"));
+
+    Array.from(document.getElementsByClassName("menu"))
+        .forEach(menu => menu.addEventListener("click", () => container?.classList.toggle("opened")));
+}
+
 function updateUserProfile(user: userModel.User) {
     const username = document.getElementById("username") as HTMLParagraphElement;
     const userpicture = document.getElementById("userpicture") as HTMLImageElement;

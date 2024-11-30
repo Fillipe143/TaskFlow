@@ -44,3 +44,46 @@
 #exit, #exit span {
     color: var(--negative-color);
 }
+
+.burguer.opened .sidebar {
+    width: 70vw !important;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--background-color);
+    z-index: 2;
+}
+
+.burguer:not(.opened) .sidebar, .menu, .darkner-region {
+    display: none;
+}
+
+.burguer.opened .sidebar .title {
+    position: relative;
+}
+
+.burguer .resize-handle {
+    display: none;
+}
+
+.burguer.opened .sidebar .title .menu {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--darker-border-color);
+}
+
+.burguer.opened .darkner-region {
+    display: block;
+    width: 100% !important;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 70vw;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}

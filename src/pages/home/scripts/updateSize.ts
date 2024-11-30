@@ -7,6 +7,9 @@ resizable.addResizeListener(() => {
     const width = projectsUList.offsetWidth;
     projectsUList.classList.remove("grid-6", "grid-5", "grid-4", "grid-3", "grid-2", "grid-1");
 
+    if (window.innerWidth < 800) resizable.container.classList.add("burguer");
+    else resizable.container.classList.remove("burguer");
+
     if (width > 1250) projectsUList.classList.add('grid-6');
     else if (width > 1000) projectsUList.classList.add('grid-5');
     else if (width > 850) projectsUList.classList.add('grid-4');

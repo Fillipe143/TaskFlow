@@ -55,3 +55,18 @@ header .input-container input:focus ~ span.close,
 header .input-container input:not(:placeholder-shown) ~ span.close {
     display: block;
 }
+
+.menu {
+    display: none;
+}
+
+.burguer header .menu {
+    display: block;
+    margin: 16px;
+    color: var(--darker-border-color);
+    cursor: pointer;
+}
+
+.burguer header .input-container {
+    margin-left: 0px;
+}

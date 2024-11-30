@@ -4,7 +4,7 @@
 @import "../../components/loader.css";
 @import "../../components/dialog/style.css";
 @import "../../components/resizable/style.css";
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,check,close,delete,info,logout,mail,person,search");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,check,close,delete,info,logout,mail,menu,person,search");
 
 @import "./styles/sidebar.css";
 @import "./styles/header.css";
