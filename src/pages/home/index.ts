@@ -26,7 +26,7 @@ auth.onUserLogged(async user => {
     await loadProjects();
 
     document.getElementsByClassName("profile")[0].addEventListener("click", _ => showEditProfileDialog(currUser));
-    document.getElementById("create")?.addEventListener("click", _ => showCreateProjectDialog());
+    document.getElementById("create")?.addEventListener("click", _ => showCreateProjectDialog(currUser));
     document.getElementById("notification")?.addEventListener("click", _ => showNoticeListDialog());
     document.getElementById("exit")?.addEventListener("click", _ => auth.logout());
     
@@ -147,7 +147,7 @@ function showEditProfileDialog(user: userModel.User) {
     };
 }
 
-function showCreateProjectDialog() {
+function showCreateProjectDialog(user: userModel.User) {
     createProjectDialog.show();
 
     const form = createProjectDialog.container.querySelector("form") as HTMLFormElement;
@@ -166,7 +166,8 @@ function showCreateProjectDialog() {
         nameField.removeEventListener("input", onInput);
         form.removeEventListener("submit", onSubmit);
 
-        await projectModel.create(nameField.value, descriptionField.value);
+        const project = projectModel.createProjectFactory(nameField.value, descriptionField.value, user.id);
+        await projectModel.create(project);
         await loadProjects();
         createProjectDialog.dismiss();
         loader.dismiss();

@@ -1,4 +1,4 @@
-import { collection, deleteDoc, doc, DocumentData, DocumentReference, getDoc, getDocs, MemoryEagerGarbageCollector, query, setDoc, Timestamp, updateDoc, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, DocumentData, DocumentReference, getDoc, getDocs, query, setDoc, Timestamp, updateDoc, where } from "firebase/firestore";
 
 import * as auth from "../auth";
 import { db } from "../firestore";
@@ -61,13 +61,18 @@ export async function getAll(): Promise<Array<Project>> {
     } catch (_) { return [] };
 }
 
-export async function create(name: string, description: string): Promise<boolean> {
+export async function create(project: Project): Promise<boolean> {
     try {
-        const user = auth.getCurrentUser();
-        if (!user) return false;
+        const projectDoc = {
+            id: uniqueID(),
+            name: project.name,
+            description: project.description,
+            crew: project.crew,
+            crewIds: Object.keys(project.crew),
+            createdAt: Timestamp.now(),
+            content: ""
+        };
 
-        const crew = { [user.uid]: MemberRole.OWNER };
-        const projectDoc = { id: uniqueID(), name, description, crew, crewIds: [user.uid], createdAt: Timestamp.now(), content: "" };
         await setDoc(getRef(projectDoc.id), projectDoc);
 
         return true;
@@ -86,4 +91,16 @@ export async function update(id: string, values: any): Promise<boolean> {
         await updateDoc(getRef(id), values);
         return true;
     } catch (_) { return false; }
+}
+
+export function createProjectFactory(name: string, description: string, userId: string): Project {
+    const crew = { [userId]: MemberRole.OWNER };
+    return {
+        id: '',
+        name,
+        description,
+        content: "",
+        crew,
+        createdAt: new Date()
+    };
 }
