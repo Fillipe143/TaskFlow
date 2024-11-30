@@ -5,7 +5,7 @@
 @import "../../components/dialog/style.css";
 
 @import "./styles/dialogs/editCrew.css";
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=delete,float_landscape_2,float_portrait_2,fullscreen,fullscreen_exit,group,mail");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=delete,float_landscape_2,float_portrait_2,fullscreen,fullscreen_exit,group,home,mail");
 
 body {
     display: flex;

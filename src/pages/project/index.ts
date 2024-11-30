@@ -7,6 +7,7 @@ import * as projectModel from "../../database/models/projectModel";
 const textarea = document.getElementsByTagName("textarea")[0] as HTMLTextAreaElement;
 const mdContainer = document.getElementById("md-container") as HTMLDivElement;
 
+const homeIcon = document.getElementById("home") as HTMLSpanElement;
 const crewIcon = document.getElementById("crew") as HTMLSpanElement;
 const fullscreenIcon = document.getElementById("fullscreen") as HTMLSpanElement;
 const flipIcon = document.getElementById("flip") as HTMLSpanElement;
@@ -28,6 +29,7 @@ if (window.localStorage.getItem(`${projectId}-fullscreen`) === "true") {
 }
 
 textarea.addEventListener("input", _ => updateMDContainer());
+homeIcon.onclick = () => window.location.href = "/";
 crewIcon.onclick = () => crewDialog.show();
 fullscreenIcon.onclick = () => toggleFullscreen();
 flipIcon.onclick = () => flipLayout();
