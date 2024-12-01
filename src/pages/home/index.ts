@@ -3,6 +3,7 @@ import "./scripts/updateSize";
 
 import * as auth from "../../database/auth";
 import * as userModel from "../../database/models/userModel";
+import * as noticeModel from "../../database/models/noticeModel";
 import * as projectModel from "../../database/models/projectModel";
 
 const createProjectDialog = Dialog.FromId("create-project");
@@ -27,7 +28,7 @@ auth.onUserLogged(async user => {
 
     document.getElementsByClassName("profile")[0].addEventListener("click", _ => showEditProfileDialog(currUser));
     document.getElementById("create")?.addEventListener("click", _ => showCreateProjectDialog(currUser));
-    document.getElementById("notification")?.addEventListener("click", _ => showNoticeListDialog());
+    document.getElementById("notification")?.addEventListener("click", async _ => await showNoticeListDialog());
     document.getElementById("exit")?.addEventListener("click", _ => auth.logout());
     
     const searchInput = document.getElementById("search") as HTMLInputElement;;
@@ -187,10 +188,6 @@ function showCreateProjectDialog(user: userModel.User) {
     form.addEventListener("submit", onSubmit);
 }
 
-function showNoticeListDialog() {
-    noticeListDialog.show();
-}
-
 function openProject(id: string) {
     window.location.href = `/project?id=${id}`;
 }
@@ -243,6 +240,77 @@ function projectTemplate(project: projectModel.Project): HTMLElement {
     element.onclick = () => openProject(project.id);
 
     return element;
+}
+
+async function showNoticeListDialog() {
+    loader.show();
+    
+    const ul = noticeListDialog.container.getElementsByTagName("ul")[0];
+    const p = noticeListDialog.container.querySelector("#no-notice");
+    ul.innerHTML = "";
+
+    const notices = await noticeModel.getAll();
+    if (notices.length > 0) p?.remove();
+
+    for (const notice of notices) {
+        const user = await userModel.get(notice.senderId);
+        if (!user) continue;
+
+        const project = await projectModel.get(notice.projectId);
+        if (!project) continue;
+
+        ul.appendChild(noticeTemplate(user, project, notice));
+    }
+
+    loader.dismiss();
+    noticeListDialog.show();
+}
+
+function noticeTemplate(user: userModel.User, project: projectModel.Project, notice: noticeModel.Notice): HTMLElement {
+    const html = `
+    <li>
+        <img src="${user.picture || "../assets/imgs/default_user_picture.jpg"}">
+        <div>
+            <h4>${project.name}</h4>
+            <p>${user.name} convidou você para um projeto</p>
+        </div>
+        <span class="material-symbols-outlined" id="confirm">check</span>
+        <span class="material-symbols-outlined" id="cancel">close</span>
+    </li>`;
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+
+    const element = doc.body.firstChild as HTMLElement;
+    (element.querySelector("#confirm") as HTMLElement).onclick = async (e) => {
+        e.stopPropagation();
+        await acceptNotice(notice);
+    };
+
+    (element.querySelector("#cancel") as HTMLElement).onclick = async (e) => {
+        e.stopPropagation();
+        await rejectNotice(notice);
+    };
+
+    element.onclick = () => openProject(project.id);
+
+    return element;
+}
+
+async function rejectNotice(notice: noticeModel.Notice): Promise<void> {
+    loader.show();
+    if (await noticeModel.reject(notice.id)) window.alert("Convite rejeitado com sucesso");
+    else window.alert("Não foi possivel rejeitar o convite");
+    noticeListDialog.dismiss();
+    loader.dismiss();
+}
+
+async function acceptNotice(notice: noticeModel.Notice): Promise<void> {
+    loader.show();
+    if (await noticeModel.accept(notice.id)) await loadProjects();
+    else window.alert("Não foi possivel aceitar o convite");
+    noticeListDialog.dismiss();
+    loader.dismiss();
 }
 
 function filterProjects(name: string) {

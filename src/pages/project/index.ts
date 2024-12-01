@@ -76,6 +76,8 @@ async function showCrewDialog(user: userModel.User, project: projectModel.Projec
 
     addButton.onclick = async () => {
         loader.show();
+        crewDialog.dismiss();
+    
         const status = await noticeModel.send(emailInput.value.trim(), projectId, `${user.name} te convidou para o projeto ${project.name}.`);
         if (status) window.alert("Notificação enviada com sucesso!");
         else window.alert("Não foi possivel enviar a notificação")
@@ -101,7 +103,7 @@ async function updateCrewList(user: userModel.User, project: projectModel.Projec
 function crewTemplate(user: userModel.User, project: projectModel.Project, isOwner: boolean): HTMLElement {
     const html = `
     <li>
-        <img src="${user.picture}">
+        <img src="${user.picture || "../assets/imgs/default_user_picture.jpg"}">
         <div>
             <h4 id="user-name">${user.name}</h4>
             <p id="user-email">${user.email}</p>
@@ -122,7 +124,9 @@ function crewTemplate(user: userModel.User, project: projectModel.Project, isOwn
 
 async function removeUserFromCrew(user: userModel.User, project: projectModel.Project) {
     loader.show();
-    const status = await projectModel.update(project.id, { crew: arrayRemove(user.id) });
+    crewDialog.dismiss();
+
+    const status = await projectModel.update(project.id, { crew: arrayRemove(user.id), guests: arrayRemove(user.id) });
     if (status) await updateCrewList(user, project);
     loader.dismiss();
 

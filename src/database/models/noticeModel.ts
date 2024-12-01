@@ -60,7 +60,12 @@ export async function getAll(): Promise<Array<Notice>> {
         const user = auth.getCurrentUser();
         if (!user) return [];
 
-        const noticesQuery = query(collection(db, "notices"), where("receiverId", "==", user.uid));
+        const noticesQuery = query(
+            collection(db, "notices"), 
+            where("receiverId", "==", user.uid),
+            where("rejected", "==", false),
+            where("accepted", "==", false)
+        );
 
         const snapshot = await getDocs(noticesQuery);
 
@@ -69,7 +74,7 @@ export async function getAll(): Promise<Array<Notice>> {
             return {
                 ...data,
                 id: doc.id,
-                sentAt: data.createdAt.toDate()
+                sentAt: data.sentAt.toDate()
             } as Notice;
         });
     } catch (_) { return []; }
