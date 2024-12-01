@@ -1,4 +1,4 @@
-import { doc, DocumentData, DocumentReference, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, DocumentData, DocumentReference, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
 
 import * as auth from "../auth";
 import { db } from "../firestore";
@@ -12,6 +12,15 @@ export type User = {
 
 function getRef(id: string): DocumentReference<DocumentData, DocumentData> {
     return doc(db, "users", id);
+}
+
+export async function getByEmail(email: string): Promise<User | null> {
+    try {
+        const userQuery = query(collection(db, "users"), where("email", "==", email));
+        const snapshot = await getDocs(userQuery);
+
+        return snapshot.docs[0].data() as User;
+    } catch (_) { return null; }
 }
 
 export async function get(id: string | undefined = undefined): Promise<User | null> {

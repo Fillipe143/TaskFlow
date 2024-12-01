@@ -2,6 +2,7 @@ import { addDoc, collection, doc, getDocs, query, setDoc, Timestamp, updateDoc, 
 
 import * as auth from "../auth";
 import { db } from "../firestore";
+import * as userModel from "./userModel";
 
 export type Notice = {
     id: string,
@@ -17,7 +18,16 @@ function uniqueID(): string {
     return doc(collection(db, "notices")).id;
 }
 
-export async function send(to: string, projectId: string, message: string): Promise<boolean> {
+export async function send(email: string, projectId: string, message: string): Promise<boolean> {
+    try {
+        const user = await userModel.getByEmail(email);
+        if (!user) return false;
+
+        return await create(user.id,  projectId, message);
+    } catch (_) { return false; }
+}
+
+export async function create(to: string, projectId: string, message: string): Promise<boolean> {
     try {
         const user = auth.getCurrentUser();
         if (!user) return false;
