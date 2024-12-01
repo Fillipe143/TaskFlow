@@ -99,7 +99,7 @@ export async function viewAll(): Promise<boolean> {
 export async function reject(id: string): Promise<boolean> {
     try {
         const docRef = doc(db, "notices", id);
-        await updateDoc(docRef, { reject: true });
+        await updateDoc(docRef, { rejected: true });
         return true;
     } catch (_) { return false; }
 }

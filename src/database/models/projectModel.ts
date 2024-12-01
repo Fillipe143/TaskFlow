@@ -8,6 +8,7 @@ export type Project = {
     name: string,
     description: string,
     content: string,
+    owner: string,
     crew: string[],
     createdAt: Date,
 };
@@ -60,6 +61,7 @@ export async function create(project: Project): Promise<boolean> {
             id: uniqueID(),
             name: project.name,
             description: project.description,
+            owner: project.owner,
             crew: project.crew,
             createdAt: Timestamp.now(),
             content: ""
@@ -91,6 +93,7 @@ export function createProjectFactory(name: string, description: string, userId: 
         name,
         description,
         content: "",
+        owner: userId,
         crew: [userId],
         createdAt: new Date()
     };
