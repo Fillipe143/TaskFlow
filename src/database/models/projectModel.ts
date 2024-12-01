@@ -3,19 +3,12 @@ import { collection, deleteDoc, doc, DocumentData, DocumentReference, getDoc, ge
 import * as auth from "../auth";
 import { db } from "../firestore";
 
-export enum MemberRole { 
-    VIEWER = "viewer",
-    EDITOR = "editor",
-    ADMIN = "admin",
-    OWNER = "owner"
-};
-
 export type Project = {
     id: string,
     name: string,
     description: string,
     content: string,
-    crew: { [key: string]: MemberRole },
+    crew: string[],
     createdAt: Date,
 };
 
@@ -47,7 +40,7 @@ export async function getAll(): Promise<Array<Project>> {
         const id = auth.getCurrentUser()?.uid;
         if (!id) return [];
 
-        const projectsQuery = query(collection(db, "projects"), where("crewIds", "array-contains", id));
+        const projectsQuery = query(collection(db, "projects"), where("crew", "array-contains", id));
         const snapshot = await getDocs(projectsQuery);
 
         return snapshot.docs.map(doc => {
@@ -68,7 +61,6 @@ export async function create(project: Project): Promise<boolean> {
             name: project.name,
             description: project.description,
             crew: project.crew,
-            crewIds: Object.keys(project.crew),
             createdAt: Timestamp.now(),
             content: ""
         };
@@ -94,13 +86,12 @@ export async function update(id: string, values: any): Promise<boolean> {
 }
 
 export function createProjectFactory(name: string, description: string, userId: string): Project {
-    const crew = { [userId]: MemberRole.OWNER };
     return {
         id: '',
         name,
         description,
         content: "",
-        crew,
+        crew: [userId],
         createdAt: new Date()
     };
 }

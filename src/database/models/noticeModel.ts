@@ -1,8 +1,9 @@
-import { addDoc, collection, doc, getDocs, query, setDoc, Timestamp, updateDoc, where } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, getDoc, getDocs, query, setDoc, Timestamp, updateDoc, where } from "firebase/firestore";
 
 import * as auth from "../auth";
 import { db } from "../firestore";
 import * as userModel from "./userModel";
+import * as projectModel from "./projectModel";
 
 export type Notice = {
     id: string,
@@ -13,6 +14,7 @@ export type Notice = {
     sentAt: Date,
     viewed: boolean,
     rejected: boolean,
+    accepted: boolean,
 };
 
 function uniqueID(): string {
@@ -23,6 +25,9 @@ export async function send(email: string, projectId: string, message: string): P
     try {
         const user = await userModel.getByEmail(email);
         if (!user) return false;
+
+        const status = await projectModel.update(projectId, { guests: arrayUnion(user.id) });
+        if (!status) return false;
 
         return await create(user.id,  projectId, message);
     } catch (_) { return false; }
@@ -41,7 +46,8 @@ export async function create(to: string, projectId: string, message: string): Pr
             message,
             sentAt: Timestamp.now(),
             viewed: false,
-            rejected: false
+            rejected: false,
+            accepted: false
         };
 
         await setDoc(doc(db, "notices", notice.id), notice);
@@ -96,4 +102,18 @@ export async function reject(id: string): Promise<boolean> {
         await updateDoc(docRef, { reject: true });
         return true;
     } catch (_) { return false; }
+}
+
+export async function accept(id: string): Promise<boolean> {
+    try {
+        const docRef = doc(db, "notices", id);
+        const snapshot = await getDoc(docRef);
+
+        if (!snapshot.exists()) return false;
+        const notice = snapshot.data() as Notice;
+
+        if (!await projectModel.update(notice.projectId, { crew: arrayUnion(notice.receiverId) })) return false;
+        await updateDoc(docRef, { accepted: true });
+        return true;
+    } catch(_) { return false; }
 }
