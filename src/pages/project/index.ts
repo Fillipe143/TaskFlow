@@ -2,6 +2,7 @@ import  { Dialog } from "../../components/dialog/script";
 import { mdToHtml } from "../../lib/markdown_viewer";
 
 import * as auth from "../../database/auth";
+import * as noticeModel from "../../database/models/noticeModel";
 import * as projectModel from "../../database/models/projectModel";
 
 const textarea = document.getElementsByTagName("textarea")[0] as HTMLTextAreaElement;
@@ -29,7 +30,9 @@ if (window.localStorage.getItem(`${projectId}-fullscreen`) === "true") {
 }
 
 textarea.addEventListener("input", _ => updateMDContainer());
-homeIcon.onclick = () => window.location.href = "/";
+homeIcon.onclick = () => {
+    noticeModel.send("ed@gmail.com", projectId, "Hello World");
+} //window.location.href = "/";
 crewIcon.onclick = () => crewDialog.show();
 fullscreenIcon.onclick = () => toggleFullscreen();
 flipIcon.onclick = () => flipLayout();

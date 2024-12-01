@@ -12,6 +12,7 @@ export type Notice = {
     message: string,
     sentAt: Date,
     viewed: boolean,
+    rejected: boolean,
 };
 
 function uniqueID(): string {
@@ -34,17 +35,18 @@ export async function create(to: string, projectId: string, message: string): Pr
 
         const notice = { 
             id: uniqueID(),
-            receiverId: user.uid,
-            senderId: to,
+            receiverId: to,
+            senderId: user.uid,
             projectId,
             message,
             sentAt: Timestamp.now(),
             viewed: false,
+            rejected: false
         };
 
         await setDoc(doc(db, "notices", notice.id), notice);
         return true;
-    } catch (_) { return false; }
+    } catch (e) { return false; }
 }
 
 export async function getAll(): Promise<Array<Notice>> {
@@ -84,6 +86,14 @@ export async function viewAll(): Promise<boolean> {
             await updateDoc(docRef, { viewed: true });
         });
 
+        return true;
+    } catch (_) { return false; }
+}
+
+export async function reject(id: string): Promise<boolean> {
+    try {
+        const docRef = doc(db, "notices", id);
+        await updateDoc(docRef, { reject: true });
         return true;
     } catch (_) { return false; }
 }
